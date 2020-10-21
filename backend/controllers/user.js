@@ -1,21 +1,27 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-
 const User = require('../models/user.model');
+const bdd = require('../models/db');
 
 
 exports.signup = (req, res, next) => {
-    bcrypt.hash(req.body.password, 10)
-      .then(hash => {
-        const user = new User({
-          email: req.body.email,
-          password: hash,
-        });
-        user.save()
-          .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
-          .catch(error => res.status(409).json({ message: 'Cet utilisateur existe déjà !' }));
-      })
-      .catch(error => res.status(500).json({ error }));
+  let user = req.body;
+  bcrypt.hash(user.password, 10)
+        .then(hash => {
+            user.password = hash; 
+            bdd.query('SELECT * from users WHERE email="'+user.email+'"', (err, result) => { // user exist ?
+                if(err) throw err; 
+                if(result.length >= 1) {
+                    return res.status(500).json({ message: "Cette adresse email existe déjà"});
+                }
+                else { // if user doesn't exist, register a new user
+                    bdd.query('INSERT INTO users SET ?', user,  (erreur, resultat) => {
+                        if (erreur) throw erreur; 
+                        return res.status(201).json({ message: 'Vous êtes bien enregistrés, vous allez être redirigé. '});
+                    })
+                }
+            })
+        })
 };
 
 exports.login = (req, res, next) => {

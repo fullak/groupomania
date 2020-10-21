@@ -2,12 +2,10 @@ const sql = require('./db');
 
 //constructor
 const User = function (user) {
-	this.surname = user.surname,
-	this.name = user.name,
-	this.image = user.image,
-	this.email = user.email,
-	this.password = user.password
-//	this.birthday = user.birthday
+    this.email = user.email,
+    this.password = user.password,
+    this.name = user.name,
+    this.firstname = user.firstname
 };
 
 //Create a user
