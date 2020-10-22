@@ -18,7 +18,7 @@
 
     <div class="control">
       <button class="button is-primary connect-btn" @click="connectUser">Se connecter</button>
-      <button class="button is-secondary" @click="$router.push('Signup') ">S'inscrire</button>
+      <button class="button is-secondary" @click="$router.push('signup') ">S'inscrire</button>
     </div>
   </div>
 </template>

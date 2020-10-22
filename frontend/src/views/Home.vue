@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <img alt="Vue logo" src="../assets/images/logo.png" class="logo">
-    <LoginModule />
+    <LoginModule class="login-module"/>
   </div>
 </template>
 
@@ -28,5 +28,25 @@ export default {
 .logo {
   height: 350px;
   margin-right: 150px;
+}
+
+@media screen and (max-width: 768px)
+{
+  .home {
+    display: flex;
+    flex-direction: column;
+    margin-top: -3rem;
+  }
+
+  .logo {
+    width: 50%;
+    height: 50%;
+    margin: auto;
+  }
+
+  .login-module {
+    margin: auto;
+    margin-top: -2rem;
+  }
 }
 </style>

@@ -79,9 +79,6 @@ export default {
     showModal() {
       document.querySelector('#modalTest').classList.add('is-active');
     }
-  },
-  mounted() {
-    console.log(this.user);
   }
 };
 </script>
