@@ -17,7 +17,8 @@
     </div>
 
     <div class="control">
-      <button class="button is-primary" @click="connectUser">Se connecter</button>
+      <button class="button is-primary connect-btn" @click="connectUser">Se connecter</button>
+      <button class="button is-secondary" @click="$router.push('Signup') ">S'inscrire</button>
     </div>
   </div>
 </template>
@@ -26,7 +27,7 @@
 import axios from 'axios'
 
 export default {
-  name: 'connectUser',
+  name: 'loginModule',
   data() {
     return {
       user: {
@@ -58,5 +59,15 @@ export default {
 </script>
 
 <style lang="scss">
+.box {
+  width: 350px;
+}
+.control {
+  display: flex;
+  flex-direction: column;
+}
 
+.connect-btn {
+  margin-bottom: 0.5rem;
+}
 </style>
