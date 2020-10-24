@@ -6,6 +6,15 @@ const sql = require('../models/db')
 
 exports.signup = (req, res, next) => {
   let user = req.body;
+
+  let emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/; 
+    let othersInputs = /^[a-z A-ZáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ0-9-]{2,}$/;
+    let verification = [
+        emailRegex.test(user.email),
+        othersInputs.test(user.name),
+        othersInputs.test(user.firstname),
+    ]
+    if(verification.every(Boolean)) {
   bcrypt.hash(user.password, 10)
         .then(hash => {
             user.password = hash; 
@@ -22,6 +31,7 @@ exports.signup = (req, res, next) => {
                 }
             })
         })
+      }
 };
 
 exports.login = (req, res, next) => {

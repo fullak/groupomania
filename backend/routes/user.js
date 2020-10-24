@@ -8,7 +8,7 @@ const multer = require('../middlewares/multer-config');
 
 const verifyPassword = require('../middlewares/verifyPasswordStrength');
 
-router.post('/signup', /*verifyPassword,*/ userCtrl.signup);
+router.post('/signup', userCtrl.signup);
 // router.post('/login', bouncer.block, userCtrl.login);
 // router.get('/profile/:id', userCtrl.getOneUser);
 // router.put('/:id', multer, userCtrl.update);

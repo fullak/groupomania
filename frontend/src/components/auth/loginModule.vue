@@ -5,14 +5,14 @@
     <div class="field">
       <label class="label">Email</label>
       <div class="control">
-        <input class="input" type="email" placeholder="e.g john@doe.com" v-model="user.email"/>
+        <input class="input" type="email" placeholder="ex: john@doe.com" v-model="user.email"/>
       </div>
     </div>
 
     <div class="field">
       <label class="label">Mot de passe</label>
       <div class="control">
-        <input class="input" type="password" placeholder="e.g. P@sSw0rd8" v-model="user.password"/>
+        <input class="input" type="password" placeholder="ex: P@sSw0rd8" v-model="user.password"/>
       </div>
     </div>
 

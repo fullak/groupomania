@@ -24,7 +24,7 @@ export default {
 
 <style lang="scss">
 .modal {
-  background-color: rgba(240, 240, 240, 0.577);
+  background-color: rgb(255, 255, 255);
 }
 
 .modal-content {
