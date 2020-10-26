@@ -3,6 +3,9 @@
     <RegisterModal />
     <h2 class="title">Inscription</h2>
 
+    <div class="alert has-text-danger" v-if="errorMessage != ''">{{ errorMessage }}
+    </div>
+
     <div class="field" :class="{ invalid: $v.email.$error }">
       <label class="label">Email</label>
       <div class="control">
@@ -10,6 +13,7 @@
           class="input"
           type="email"
           placeholder="ex: john@doe.com"
+          required
           v-model="email"
         />
         <small
@@ -28,6 +32,7 @@
           class="input"
           type="password"
           placeholder="ex: P@sSw0rd8"
+          required
           v-model="password"
         />
         <small
@@ -52,6 +57,7 @@
           class="input"
           type="password"
           placeholder="ex: P@sSw0rd8"
+          required
           v-model="confirmationPassword"
         />
         <small
@@ -74,6 +80,7 @@
           class="input"
           type="text"
           placeholder="ex: Doe"
+          required
           v-model="name"
         />
         <small
@@ -98,6 +105,7 @@
           class="input"
           type="text"
           placeholder="ex: John"
+          required
           v-model="firstname"
 
         />
@@ -186,7 +194,9 @@ export default {
   },
   methods: {
     signUp() {
-      if (this.password != this.confirmationPassword) {
+      if (this.password !== this.confirmationPassword || this.email === "" || this.password === "" || this.name === "" || this.confirmationPassword === "" || this.firstname === "") {
+        console.log("Le formulaire n'est pas correctement remplis !");
+        this.errorMessage = "Le formulaire n'est pas correctement remplis !";
         return;
       } else {
         let user = {
@@ -198,15 +208,14 @@ export default {
       axios
         .post("http://localhost:3000/user/signup", user)
         .then((response) => {
-          console.log(response.data.message);
+          console.log('Utilisateur ajouté à la base de donnée, status : ', response.status);
           setTimeout(() => {
             this.$router.push({ path: "/" });
           }, 3500);
-          document.querySelector("#modalTest").classList.add("is-active");
+          document.querySelector("#registerModal").classList.add("is-active");
         })
         .catch((error) => {
-          console.log(error.response.data.error);
-          this.errorMessage = error.response.data.error;
+          console.log('An error is appeared : ', error.response.data);
         });
       }
     },

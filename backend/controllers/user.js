@@ -1,60 +1,50 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user.model');
-const sql = require('../models/db')
 
 
-exports.signup = (req, res, next) => {
-  let user = req.body;
-
-  let emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/; 
-    let othersInputs = /^[a-z A-ZáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ0-9-]{2,}$/;
-    let verification = [
-        emailRegex.test(user.email),
-        othersInputs.test(user.name),
-        othersInputs.test(user.firstname),
-    ]
-    if(verification.every(Boolean)) {
-  bcrypt.hash(user.password, 10)
-        .then(hash => {
-            user.password = hash; 
-            sql.query('SELECT * from users WHERE email="'+user.email+'"', (err, result) => { // user exist ?
-                if(err) throw err; 
-                if(result.length >= 1) {
-                    return res.status(500).json({ message: "Cette adresse email existe déjà"});
-                }
-                else { // if user doesn't exist, register a new user
-                    sql.query('INSERT INTO users SET ?', user,  (erreur, resultat) => {
-                        if (erreur) throw erreur; 
-                        return res.status(201).json({ message: 'Vous êtes bien enregistrés, vous allez être redirigé. '});
-                    })
-                }
-            })
-        })
-      }
+exports.signup = (req, res) => {
+  bcrypt.hash(req.body.password, 10)
+    .then(hash => {
+      const user = new User({
+        name: req.body.name,
+        firstname: req.body.firstname,
+        email: req.body.email,
+        password: hash,
+      });
+      User.create(user, (err, data) => {
+        if (err) {
+          res.status(500).send({
+            message: err.message || "An error has appeared"
+          });
+          return;
+        }
+        res.send(data);
+      })     
+  })
 };
 
-exports.login = (req, res, next) => {
-    User.findOne({ email: req.body.email })
-      .then(user => {
-        if (!user) {
-          return res.status(401).json({ error: 'Utilisateur non trouvé !' });
-        }
-        bcrypt.compare(req.body.password, user.password)
-          .then(valid => {
-            if (!valid) {
-              return res.status(401).json({ error: 'Mot de passe incorrect !' });
-            }
-            res.status(200).json({
-              userId: user._id,
-              token: jwt.sign(
-                { userId: user._id },
-                'RANDOM_TOKEN_SECRET',
-                { expiresIn: '24h' }
-              )
-            });
-          })
-          .catch(error => res.status(500).json({ error }));
-      })
-      .catch(error => res.status(500).json({ error }));
+exports.login = (req, res) => {
+  User.getOne({ email: req.body.email })
+    .then(user => {
+      if (!user) {
+        return res.status(401).json({ error: 'User not found!' });
+      }
+      bcrypt.compare(req.body.password, user.password)
+        .then(valid => {
+          if (!valid) {
+            return res.status(401).json({ error: 'Incorrect password' });
+          }
+          res.status(200).json({
+            userId: user.id,
+            token: jwt.sign(
+              { userId: user.id },
+              'RANDOM_TOKEN_SECRET',
+              { expiresIn: '24h' }
+            )
+          });
+        })
+        .catch(error => res.status(500).json({ error }));
+    })
+    .catch(error => res.status(500).json({ error }));
 };

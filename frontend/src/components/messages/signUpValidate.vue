@@ -1,5 +1,5 @@
 <template>
-  <div class="modal" id="modalTest">
+  <div class="modal" id="registerModal">
     <div class="modal-background"></div>
     <div class="modal-content box">
       <h2 class="signupValidate">
@@ -16,7 +16,7 @@ export default {
   name: "modal",
   methods: {
     hideModal() {
-      document.querySelector('#modalTest').classList.remove('is-active');
+      document.querySelector('#registerModal').classList.remove('is-active');
     }
   }
 };

@@ -1,23 +1,23 @@
 const sql = require('./db');
 
 //constructor
-const User = function (user) {
-    this.email = user.email,
-    this.password = user.password,
-    this.name = user.name,
+const User = function(user) {
+    this.email = user.email
+    this.password = user.password
+    this.name = user.name
     this.firstname = user.firstname
 };
 
 //Create a user
 User.create = (newUser, result) => {
-	sql.query("INSERT INTO users SET ?", newUser, (err, res) => {
+	sql.query('INSERT INTO users SET ?', newUser, (err, res) => {
 		if (err) {
 			console.log('error: ', err);
 			result(err, null);
 			return;
-		}
-		console.log('Utilisateur ajouté à la base de donnée');
-		result(null, {id: res.id, ...newUser});
+		} 
+		console.log('User added to the database');
+		result(null, { id: res.id, ...newUser});
 	})
 };
 
@@ -31,3 +31,5 @@ User.getOne = (email, result) => {
 		result(null, res[0]);
 	})
 };
+
+module.exports = (User);
