@@ -1,6 +1,6 @@
 <template>
   <div class="register box register-block">
-    <RegisterModal />
+    <RegisterModal/>
     <h2 class="title">Inscription</h2>
 
     <div class="alert has-text-danger" v-if="errorMessage != ''">{{ errorMessage }}
@@ -10,17 +10,17 @@
       <label class="label">Email</label>
       <div class="control">
         <input
-          class="input"
-          type="email"
-          placeholder="ex: john@doe.com"
-          required
-          v-model="email"
+            class="input"
+            type="email"
+            placeholder="ex: john@doe.com"
+            required
+            v-model="email"
         />
         <small
-          v-if="!$v.email.email"
-          id="emailHelp"
-          class="form-text has-text-danger"
-          >L'adresse email fournie est invalide.</small
+            v-if="!$v.email.email"
+            id="emailHelp"
+            class="form-text has-text-danger"
+        >L'adresse email fournie est invalide.</small
         >
       </div>
     </div>
@@ -29,23 +29,23 @@
       <label class="label">Mot de passe</label>
       <div class="control">
         <input
-          class="input"
-          type="password"
-          placeholder="ex: P@sSw0rd8"
-          required
-          v-model="password"
+            class="input"
+            type="password"
+            placeholder="ex: P@sSw0rd8"
+            required
+            v-model="password"
         />
         <small
-          v-if="!$v.password.minLength"
-          id="emailHelp"
-          class="form-text has-text-danger"
-          >Le mot de passe doit contenir au moins 6 caractères</small
+            v-if="!$v.password.minLength"
+            id="emailHelp"
+            class="form-text has-text-danger"
+        >Le mot de passe doit contenir au moins 6 caractères</small
         >
         <small
-          v-if="!$v.password.syntaxe && password != ''"
-          id="nomHelp"
-          class="form-text has-text-danger"
-          >Le mot de passe contient des caractères non autorisés</small
+            v-if="!$v.password.syntaxe && password != ''"
+            id="nomHelp"
+            class="form-text has-text-danger"
+        >Le mot de passe contient des caractères non autorisés</small
         >
       </div>
     </div>
@@ -54,20 +54,20 @@
       <label class="label">Confirmer votre mot de passe</label>
       <div class="control">
         <input
-          class="input"
-          type="password"
-          placeholder="ex: P@sSw0rd8"
-          required
-          v-model="confirmationPassword"
+            class="input"
+            type="password"
+            placeholder="ex: P@sSw0rd8"
+            required
+            v-model="confirmationPassword"
         />
         <small
-          v-if="
+            v-if="
             !$v.confirmationPassword.sameAsPassword &&
               confirmationPassword != ''
           "
-          id="nomHelp"
-          class="form-text has-text-danger"
-          >Ce mot de passe n'est pas identique au précédent
+            id="nomHelp"
+            class="form-text has-text-danger"
+        >Ce mot de passe n'est pas identique au précédent
           {{ $v.confirmationPassword.syntaxe }}</small
         >
       </div>
@@ -77,23 +77,23 @@
       <label class="label">Nom</label>
       <div class="control">
         <input
-          class="input"
-          type="text"
-          placeholder="ex: Doe"
-          required
-          v-model="name"
+            class="input"
+            type="text"
+            placeholder="ex: Doe"
+            required
+            v-model="name"
         />
         <small
-          v-if="!$v.name.minLength"
-          id="emailHelp"
-          class="form-text has-text-danger"
-          >Le nom doit contenir au moins 2 caractères</small
+            v-if="!$v.name.minLength"
+            id="emailHelp"
+            class="form-text has-text-danger"
+        >Le nom doit contenir au moins 2 caractères</small
         >
         <small
-          v-if="!$v.name.syntaxe && name != ''"
-          id="nomHelp"
-          class="form-text has-text-danger"
-          >Le nom contient des caractères non autorisés</small
+            v-if="!$v.name.syntaxe && name != ''"
+            id="nomHelp"
+            class="form-text has-text-danger"
+        >Le nom contient des caractères non autorisés</small
         >
       </div>
     </div>
@@ -102,24 +102,24 @@
       <label class="label">Prénom</label>
       <div class="control">
         <input
-          class="input"
-          type="text"
-          placeholder="ex: John"
-          required
-          v-model="firstname"
+            class="input"
+            type="text"
+            placeholder="ex: John"
+            required
+            v-model="firstname"
 
         />
         <small
-          v-if="!$v.firstname.minLength"
-          id="emailHelp"
-          class="form-text has-text-danger"
-          >Le nom doit contenir au moins 2 caractères</small
+            v-if="!$v.firstname.minLength"
+            id="emailHelp"
+            class="form-text has-text-danger"
+        >Le nom doit contenir au moins 2 caractères</small
         >
         <small
-          v-if="!$v.firstname.syntaxe && firstname != ''"
-          id="nomHelp"
-          class="form-text has-text-danger"
-          >Le nom contient des caractères non autorisés</small
+            v-if="!$v.firstname.syntaxe && firstname != ''"
+            id="nomHelp"
+            class="form-text has-text-danger"
+        >Le nom contient des caractères non autorisés</small
         >
       </div>
     </div>
@@ -136,7 +136,7 @@
 </template>
 
 <script>
-import { required, email, minLength, sameAs } from "vuelidate/lib/validators";
+import {required, email, minLength, sameAs} from "vuelidate/lib/validators";
 import RegisterModal from "@/components/messages/signUpValidate.vue";
 import axios from "axios";
 
@@ -165,7 +165,7 @@ export default {
       minLength: minLength(6),
       syntaxe: (value) => {
         return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/.test(
-          value
+            value
         );
       }
     },
@@ -178,7 +178,7 @@ export default {
       minLength: minLength(2),
       syntaxe: (value) => {
         return /^[a-z A-ZáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ0-9-]{1,}$/.test(
-          value
+            value
         );
       },
     },
@@ -187,7 +187,7 @@ export default {
       minLength: minLength(2),
       syntaxe: (value) => {
         return /^[a-z A-ZáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ0-9-]{1,}$/.test(
-          value
+            value
         );
       },
     },
@@ -200,23 +200,23 @@ export default {
         return;
       } else {
         let user = {
-        name: this.name,
-        firstname: this.firstname,
-        email: this.email,
-        password: this.password,
-      };
-      axios
-        .post("http://localhost:3000/user/signup", user)
-        .then((response) => {
-          console.log('Utilisateur ajouté à la base de donnée, status : ', response.status);
-          setTimeout(() => {
-            this.$router.push({ path: "/" });
-          }, 3500);
-          document.querySelector("#registerModal").classList.add("is-active");
-        })
-        .catch((error) => {
-          console.log('An error is appeared : ', error.response.data);
-        });
+          name: this.name,
+          firstname: this.firstname,
+          email: this.email,
+          password: this.password,
+        };
+        axios
+            .post("http://localhost:3000/user/signup", user)
+            .then((response) => {
+              console.log('Utilisateur ajouté à la base de donnée, status : ', response.status);
+              setTimeout(() => {
+                this.$router.push({path: "/"});
+              }, 3500);
+              document.querySelector("#registerModal").classList.add("is-active");
+            })
+            .catch((error) => {
+              console.log('An error is appeared : ', error.response.data);
+            });
       }
     },
   },

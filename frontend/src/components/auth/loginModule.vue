@@ -1,5 +1,6 @@
 <template>
   <div class="Login box">
+    <LoginModal/>
     <h2 class="title">Connexion</h2>
 
     <div class="field">
@@ -25,50 +26,61 @@
 
 <script>
 import axios from 'axios'
+import LoginModal from "@/components/messages/loginValidate.vue";
+
 
 export default {
   name: 'loginModule',
+  components: {
+    LoginModal,
+  },
   data() {
     return {
       email: '',
-      password: ''
+      password: '',
+      errorMessage: '',
+      token: '',
+      isAlert: false,
     }
   },
-  computed: {
-
-  },
+  computed: {},
   methods: {
     login() {
       let user = {
         email: this.email,
         password: this.password
       }
-      console.log(user);
-      axios.post('http://localhost:3000/user/login', user)
-        .then((response) => {
-          console.log(response);
-          this.errorMessage = response.data.message;
-          this.$ls.set('token', response.data.token);
-          this.$ls.set('userId', response.data.userId);
-          this.$store.state.tokenToCheck = response.data.token;
-          this.$store.state.userId = response.data.userId;
-          this.isAlert = false;
-          this.$store.dispatch('getInfos');
-          this.$router.push('filactualite');
-        })
-        .catch(error => { 
-          this.errorMessage = error.response.data.message;
-          this.isAlert = true;  
+      axios.post('http://localhost:3000/user/login/', user)
+          .then((response) => {
+            this.errorMessage = response.data.message;
+            localStorage.clear();
+            localStorage.userId = response.data.userId;
+            localStorage.token = response.data.token;
+            // this.$store.state.tokenToCheck = response.data.token;
+            // this.$store.state.userId = response.data.userId;
+            this.isAlert = false;
+            // this.$store.dispatch('getInfos');
+            setTimeout(() => {
+              this.$router.push({path: "/user"});
+            }, 3500);
+            document.querySelector("#loginModal").classList.add("is-active");
+
+          })
+          .catch(error => {
+            this.errorMessage = error.response.data.message;
+            this.isAlert = true;
           });
     },
   }
 };
 </script>
 
+
 <style lang="scss">
 .box {
   width: 350px;
 }
+
 .control {
   display: flex;
   flex-direction: column;
