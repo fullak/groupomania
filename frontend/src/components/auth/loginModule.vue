@@ -4,17 +4,15 @@
     <h2 class="title">Connexion</h2>
 
     <div class="field">
-      <label class="label">Email</label>
-      <div class="control">
+      <label class="label">Email
         <input class="input" type="email" placeholder="ex: john@doe.com" v-model="email"/>
-      </div>
+      </label>
     </div>
 
     <div class="field">
-      <label class="label">Mot de passe</label>
-      <div class="control">
+      <label class="label">Mot de passe
         <input class="input" type="password" placeholder="ex: P@sSw0rd8" v-model="password"/>
-      </div>
+      </label>
     </div>
 
     <div class="control">

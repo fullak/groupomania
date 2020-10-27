@@ -1,7 +1,6 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user.model');
-const bdd = require('../models/db')
 
 
 exports.signup = (req, res) => {
@@ -35,7 +34,6 @@ exports.login = (req, res) => {
                 });
                 return;
             }
-            console.log('result : ', result);
             bcrypt.compare(user.password, result.password)
                 .then(valid => {
                     if (!valid) return res.status(500).json({message: "User or password doesn't match"});
