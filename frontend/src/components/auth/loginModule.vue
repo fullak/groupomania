@@ -41,7 +41,14 @@ export default {
       isAlert: false,
     }
   },
-  computed: {},
+  computed: {
+    loggedIn() {
+      return this.$store.getters.isLogged;
+    },
+    userToken() {
+      return this.$store.state.userToken;
+    }
+  },
   methods: {
     login() {
       let user = {
@@ -54,15 +61,15 @@ export default {
             localStorage.clear();
             localStorage.userId = response.data.userId;
             localStorage.token = response.data.token;
-            // this.$store.state.tokenToCheck = response.data.token;
-            // this.$store.state.userId = response.data.userId;
+            this.$store.state.userToken = response.data.token;
+            this.$store.state.userId = response.data.userId;
             this.isAlert = false;
-            // this.$store.dispatch('getInfos');
+            this.$store.state.isLogged = true;
+            this.$store.dispatch('getOneUser');
             setTimeout(() => {
-              this.$router.push({path: "/user"});
+              this.$router.push({path: "/profile"});
             }, 3500);
             document.querySelector("#loginModal").classList.add("is-active");
-
           })
           .catch(error => {
             this.errorMessage = error.response.data.message;

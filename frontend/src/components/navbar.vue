@@ -7,9 +7,9 @@
         class="logo-nav"
       />
       <div class="block-link">
-        <router-link to="/">Accueil</router-link> |
-        <router-link to="/signup">Inscription</router-link> |
-        <router-link to="/profile">Profile</router-link>
+        <router-link to="/">Accueil</router-link>
+        <router-link to="/signup" v-if="!(this.$store.state.isLogged)"> | Inscription</router-link>
+        <router-link to="/profile" v-if="this.$store.state.isLogged"> | Profile</router-link>
       </div>
     </nav>
     <router-view />

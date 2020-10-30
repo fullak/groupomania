@@ -6,6 +6,7 @@ const User = function (user) {
     this.password = user.password
     this.name = user.name
     this.firstname = user.firstname
+    this.date_of_birth = user.birthday
 };
 
 //Create a user
@@ -31,5 +32,7 @@ User.getOne = (user, result) => {
         result(null, res[0]);
     })
 };
+
+
 
 module.exports = (User);

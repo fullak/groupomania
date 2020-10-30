@@ -122,15 +122,27 @@
         >Le nom contient des caractères non autorisés</small
         >
       </div>
-    </div>
 
-    <div class="control">
-      <button class="button is-primary" @click.prevent="signUp">
-        S'inscrire
-      </button>
-      <button class="button is-secondary back-home" @click="$router.push('/')">
-        Revenir à l'accueil
-      </button>
+      <div class="field">
+        <label class="label birthday">Date de naissance</label>
+        <div class="control">
+          <input
+              class="input"
+              type="date"
+              v-model="birthday"
+              required
+          />
+        </div>
+      </div>
+
+      <div class="control">
+        <button class="button is-primary" @click.prevent="signUp">
+          S'inscrire
+        </button>
+        <button class="button is-secondary back-home" @click="$router.push('/')">
+          Revenir à l'accueil
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -152,6 +164,7 @@ export default {
       firstname: "",
       password: "",
       confirmationPassword: "",
+      birthday: "",
       errorMessage: "",
     };
   },
@@ -204,6 +217,7 @@ export default {
           firstname: this.firstname,
           email: this.email,
           password: this.password,
+          birthday: this.birthday,
         };
         axios
             .post("http://localhost:3000/user/signup", user)
@@ -233,6 +247,10 @@ export default {
   font-size: 30px;
 }
 
+.birthday {
+  margin-top: 0.5rem;
+}
+
 .back-home {
   margin-top: 0.5rem;
 }
@@ -240,5 +258,13 @@ export default {
 .alert {
   font-weight: 500;
   margin-bottom: 1rem;
+}
+
+.upload-container {
+  margin: 0.5rem 0 0.5rem;
+}
+
+.upload-btn {
+  margin: auto;
 }
 </style>

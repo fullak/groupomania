@@ -1,9 +1,12 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user.model');
+const sql = require('../models/db');
+
 
 
 exports.signup = (req, res) => {
+    console.log(req.body);
     bcrypt.hash(req.body.password, 10)
         .then(hash => {
             const user = new User({
@@ -11,6 +14,7 @@ exports.signup = (req, res) => {
                 firstname: req.body.firstname,
                 email: req.body.email,
                 password: hash,
+                birthday: req.body.birthday,
             });
             User.create(user, (err, data) => {
                 if (err) {
@@ -54,41 +58,18 @@ exports.login = (req, res) => {
     }
 };
 
+exports.getOneUser = (req, res, next) => {
+    sql.query('SELECT * FROM users WHERE id="' + req.params.id + '"', (err, result) => {
+        if(err) throw err;
+        console.log(result);
+        return res.status(200).json(result);
+    })
+};
 
-/*
-exports.login = (req, res) => {
-    let user = req.body;
-    console.log('A');
-    console.log(user);
-    if (user) {
-        bdd.query('SELECT password, id FROM users WHERE email="' + user.email + '"', (err, result) => { // If user exist, look for the password
-            if (err) throw err;
-            console.log('B')
-            console.log(result);
-            if (result.length <= 0) {
-                return res.status(500).json({message: "User doesn't exist"});
-            } else {
-                console.log(user.password);
-                console.log(result[0]);
-                bcrypt.compare(user.password, result[0].password)
-                    .then(valid => {
-                        if (!valid) return res.status(500).json({message: "User or password do not match"});
-                        res.status(200).json({
-                            message: 'Login completed, you will be redirected',
-                            token: jwt.sign(
-                                {userId: result[0].id},
-                                'RANDOM_TOKEN',
-                                {expiresIn: '24h'}
-                            ),
-                            userId: result[0].id
-                        });
-                    })
-                    .catch(() => {
-                        return res.status(500).json({message: "An error has occurred"});
-                    })
-            }
-        })
-    } else {
-        return res.status(500).json({message: 'Data transmitted incorrectly'});
-    }
-};*/
+exports.update = (req, res, next) => {
+    sql.query('INSERT INTO users WHERE id="' + req.params.id + '"SET ?', (err, result) => {
+        if(err) throw err;
+        console.log(result);
+        return res.status(200).json(result);
+    } )
+}

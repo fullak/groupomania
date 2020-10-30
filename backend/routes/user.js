@@ -10,8 +10,8 @@ const verifyPassword = require('../middlewares/verifyPasswordStrength');
 
 router.post('/signup', userCtrl.signup);
 router.post('/login', bouncer.block, userCtrl.login);
-// router.get('/profile/:id', userCtrl.getOneUser);
-// router.put('/:id', multer, userCtrl.update);
+router.get('/profile/:id', auth, userCtrl.getOneUser);
+router.put('/:id', multer, userCtrl.update);
 
 
 module.exports = router;

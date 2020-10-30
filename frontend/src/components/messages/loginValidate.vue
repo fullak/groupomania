@@ -3,10 +3,7 @@
     <div class="modal-background"></div>
     <div class="modal-content box">
       <h2 class="signupValidate">
-        Connecté en tant que 
-        <div>
-            {{ currentLogged }}
-        </div>
+        Bienvenue {{ this.$store.state.userFirstname }} !
         <i class="fas fa-user-check green-check"></i>
       </h2>
       <span class="signupRedirection">Vous allez être redirigé</span>
@@ -22,11 +19,6 @@
 <script>
 export default {
   name: "loginModal",
-  data() {
-    return {
-        currentLogged: sessionStorage.getItem("currentUser"),
-    };
-  },
   methods: {
     hideModal() {
       document.querySelector("#loginModal").classList.remove("is-active");
