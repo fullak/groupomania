@@ -7,9 +7,24 @@
         class="logo-nav"
       />
       <div class="block-link">
-        <router-link to="/">Accueil</router-link>
-        <router-link to="/signup" v-if="!(this.$store.state.isLogged)"> | Inscription</router-link>
-        <router-link to="/profile" v-if="this.$store.state.isLogged"> | Profile</router-link>
+        <router-link to="/" class="link">Accueil</router-link>
+        <router-link
+          to="/signup"
+          v-if="!this.$store.state.isLogged"
+          class="link"
+        >
+          Inscription</router-link
+        >
+        <router-link
+          to="/profile"
+          v-if="this.$store.state.isLogged"
+          class="link"
+        >
+          {{ this.$store.state.userFirstname }}</router-link
+        >
+        <div class="user" v-if="this.$store.state.isLogged">
+          <img :src="this.$store.state.userPicture" class="userPicture" />
+        </div>
       </div>
     </nav>
     <router-view />
@@ -18,30 +33,52 @@
 
 <script>
 export default {
-    name: 'navbar'
-}
+  name: "navbar",
+};
 </script>
 
 <style lang="scss">
-#nav {
-  padding: 10px;
+.navigation {
+  display: flex;
+  flex-direction: column;
+}
+
+.navbar {
+  padding: 7px;
+  display: flex;
 
   a {
     font-weight: bold;
     color: white;
 
     &.router-link-exact-active {
-      color: #ED864A;
+      color: #0D3B66;
     }
   }
 }
 
 .block-link {
-  margin: 1px 0 0 25px;
+  margin: 5px 0 0 2rem;
+  display: flex;
+  flex-direction: row;
+}
+
+.link,
+.user {
+  margin: 5px 0 0 5px;
 }
 
 .logo-nav {
-  height: 25px;
+  height: 35px;
+  margin-top: 5px;
   margin-left: 10px;
+}
+
+.userPicture {
+  border: #000000 solid 1px;
+  margin-top: -7px;
+  border-radius: 30px;
+  width: 40px;
+  height: 40px;
 }
 </style>

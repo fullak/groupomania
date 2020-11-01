@@ -25,7 +25,7 @@ app.use(bodyParser.json())
 
 app.use('/user', userRoutes);
 // app.use('/fil/', filRoutes);
-// app.use('/profile/', profileRoutes);
+app.use('/profile/', userRoutes);
 // app.use('/dashBoard/', adminboardRoutes);
 
 module.exports = app;

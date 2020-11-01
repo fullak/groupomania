@@ -1,52 +1,102 @@
 <template>
-
   <div class="profile">
     <div class="main-profile">
       <div class="information box">
-        <img :src="this.$store.state.userPicture" class="profilePicture" alt="user profile picture">
-        <button class="button is-primary updateBtn">Update PP</button>
+        <form>
+          <div class="form-group profile-picture-form">
+            <img
+              :src="this.$store.state.userPicture"
+              alt="Preview profile picture"
+              class="profilePicture"
+            />
+            <div class="update-profile-picture" v-if="seen">
+              <input
+                type="file"
+                id="avatar"
+                ref="file"
+                accept="image/*"
+                class="form-input"
+              />
+              <button
+                class="button is-primary active"
+                @click.prevent="uploadImage"
+              >
+                Mettre à jour la photo de profil
+              </button>
+            </div>
+
+            <button
+              class="button is-primary testing"
+              v-if="!seen"
+              @click="seen = true"
+            >
+              Changer de photo de profil
+            </button>
+          </div>
+        </form>
+
         <div class="userInformation">
-          <span>Name : {{ this.$store.state.userName }}</span>
-          <span>Firstname : {{ this.$store.state.userFirstname }}</span>
+          <span>Nom : {{ this.$store.state.userName }}</span>
+          <span>Prénom : {{ this.$store.state.userFirstname }}</span>
           <span>Age: {{ getAge(birthday) }} ans</span>
-          <span>Role : {{ this.$store.state.userRole }}</span>
+          <span>Rang : {{ this.$store.state.userRole }}</span>
         </div>
-        <button class="button disconnect-btn is-danger" v-if="loggedIn" @click="logout">Déconnexion</button>
+        <button
+          class="button disconnect-btn is-danger"
+          v-if="loggedIn"
+          @click="logout"
+        >
+          Déconnexion
+        </button>
       </div>
+
       <div class="userPost-container">
         <h2 class="lastPostsTitle">My last posts</h2>
+
         <div class="posts box">
-          <p class="postContent">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium aliquid
-            consectetur
-            culpa deleniti distinctio dolore ducimus, ea eligendi et ex facilis illum ipsa optio, placeat quos rem sequi
-            sit veritatis.
+          <p class="postContent">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+            Accusantium aliquid consectetur culpa deleniti distinctio dolore
+            ducimus, ea eligendi et ex facilis illum ipsa optio, placeat quos
+            rem sequi sit veritatis.
           </p>
         </div>
+
         <div class="posts box">
-          <p class="postContent">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium aliquid
-            consectetur
-            culpa deleniti distinctio dolore ducimus, ea eligendi et ex facilis illum ipsa optio, placeat quos rem sequi
-            sit veritatis.</p>
+          <p class="postContent">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+            Accusantium aliquid consectetur culpa deleniti distinctio dolore
+            ducimus, ea eligendi et ex facilis illum ipsa optio, placeat quos
+            rem sequi sit veritatis.
+          </p>
         </div>
+
         <div class="posts box">
-          <p class="postContent">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium aliquid
-            consectetur
-            culpa deleniti distinctio dolore ducimus, ea eligendi et ex facilis illum ipsa optio, placeat quos rem sequi
-            sit veritatis.</p>
+          <p class="postContent">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+            Accusantium aliquid consectetur culpa deleniti distinctio dolore
+            ducimus, ea eligendi et ex facilis illum ipsa optio, placeat quos
+            rem sequi sit veritatis.
+          </p>
         </div>
       </div>
     </div>
   </div>
-
 </template>
 
 <script>
+// TODO: changer les dimensions de l'image à l'upload
+
+import axios from "axios";
+
 export default {
-  name: 'userProfile',
+  name: "userProfile",
   data() {
     return {
       currentLogged: localStorage.getItem("userId"),
       birthday: this.$store.state.userBirthday,
+      feedbackMessageAvatar: "",
+      seen: false,
     };
   },
   computed: {
@@ -57,9 +107,33 @@ export default {
   methods: {
     logout() {
       localStorage.clear();
-      this.$store.commit('LOGOUT');
-      this.$store.commit('CLEAR_STATE');
-      this.$router.push('/');
+      this.$store.commit("LOGOUT");
+      this.$store.commit("CLEAR_STATE");
+      this.$router.push("/");
+    },
+    uploadImage() {
+      let file = this.$refs.file.files[0];
+      let formData = new FormData();
+
+      formData.append("image", file);
+      formData.append("userId", this.$store.state.userId);
+      formData.append("currentImage", this.$store.state.userPicture);
+
+      axios
+        .put("http://localhost:3000/profile/image", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `token ${this.$store.state.userToken}`,
+          },
+        })
+        .then((response) => {
+          this.feedbackMessageAvatar = response.data.message;
+          this.$store.dispatch("getOneUser");
+          location.reload();
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
     getAge(birthday) {
       let today = new Date();
@@ -70,8 +144,8 @@ export default {
         age--;
       }
       return age;
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -95,6 +169,12 @@ export default {
   flex-direction: column;
 }
 
+.profile-picture-form {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+
 .profilePicture {
   border: #757763 solid 1px;
   border-radius: 5rem;
@@ -103,8 +183,13 @@ export default {
   margin: 1rem auto;
 }
 
+.form-label,
+.form-input {
+  margin-bottom: 0.5rem;
+}
+
 .updateBtn {
-  width: 50%;
+  width: auto;
   margin: 1rem auto;
 }
 
@@ -137,5 +222,4 @@ export default {
   height: auto;
   margin: 2rem auto 0;
 }
-
 </style>

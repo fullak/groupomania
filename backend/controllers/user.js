@@ -2,7 +2,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user.model');
 const sql = require('../models/db');
-
+const fs = require('fs');
 
 
 exports.signup = (req, res) => {
@@ -66,10 +66,21 @@ exports.getOneUser = (req, res, next) => {
     })
 };
 
-exports.update = (req, res, next) => {
-    sql.query('INSERT INTO users WHERE id="' + req.params.id + '"SET ?', (err, result) => {
+
+exports.updateImage = (req, res, next) => {
+
+    let imageToUpload = `${req.protocol}://${req.get('host')}/profile/${req.file.filename}`
+    let imageToDelete = req.body.currentImage.split('/profile/')[1];
+
+    console.log(imageToDelete);
+
+    if(imageToDelete != "default.png") { // Pas de suppression de fichier si l'utilisateur a encore l'avatar de base
+        fs.unlink(`images/profile/${imageToDelete}`, () => { 
+        })
+    }
+    
+    sql.query('UPDATE users SET image="'+imageToUpload+'" WHERE id="'+req.body.userId+'"', (err, result) => {
         if(err) throw err;
-        console.log(result);
-        return res.status(200).json(result);
-    } )
-}
+        return res.status(201).json({ message: 'Avatar changé '})
+    })
+};
