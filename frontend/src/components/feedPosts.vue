@@ -18,6 +18,7 @@ export default {
   name: "allPosts",
   data() {
     return {
+      currentLogged: localStorage.getItem("userId"),
       posts: [],
     };
   },
@@ -44,7 +45,6 @@ export default {
           } else {
             return;
           }
-          
         })
         .catch((error) => {
           console.log(error);

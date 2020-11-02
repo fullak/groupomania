@@ -45,14 +45,7 @@ export default {
       axios
         .post("http://localhost:3000/user/posts", post)
         .then((response) => {
-          localStorage.userId = response.data.userId;
-          localStorage.token = response.data.token;
-          this.$store.state.userToken = response.data.token;
-          this.$store.state.userId = response.data.userId;
-          this.$store.state.isLogged = true;
-          setTimeout(() => {
-            this.$router.push({ path: "/feed" });
-          }, 3500);
+          location.reload();
           console.log(
             "Post ajouté à la base de donnée, status : ",
             response.status

@@ -13,7 +13,7 @@ router.post('/login', bouncer.block, userCtrl.login);
 router.get('/profile/:id', auth, userCtrl.getOneUser);
 router.put('/:id/', auth, multer, userCtrl.updateImage);
 router.post('/posts', userCtrl.addPost);
-router.get('/posts', auth, userCtrl.getAllPosts);
+router.get('/posts', userCtrl.getAllPosts);
 
 
 module.exports = router;
