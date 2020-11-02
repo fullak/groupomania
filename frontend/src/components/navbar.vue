@@ -7,7 +7,9 @@
         class="logo-nav"
       />
       <div class="block-link">
-        <router-link to="/" class="link">Accueil</router-link>
+        <router-link to="/" class="link" v-if="!this.$store.state.isLogged"
+          >Accueil</router-link
+        >
         <router-link
           to="/signup"
           v-if="!this.$store.state.isLogged"
@@ -15,17 +17,23 @@
         >
           Inscription</router-link
         >
+        <router-link to="/feed" class="link" v-if="this.$store.state.isLogged"
+          >Fil d'actualité</router-link
+        >
+        <div class="container-profile">
         <router-link
           to="/profile"
           v-if="this.$store.state.isLogged"
           class="link"
         >
-          {{ this.$store.state.userFirstname }}</router-link
-        >
-        <div class="user" v-if="this.$store.state.isLogged">
+          Profile
           <img :src="this.$store.state.userPicture" class="userPicture" />
+        </router-link>
         </div>
       </div>
+
+          <button class="post-a-message is-danger">Poster un message</button>
+
     </nav>
     <router-view />
   </div>
@@ -40,43 +48,50 @@ export default {
 <style lang="scss">
 .navigation {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
 }
 
 .navbar {
   padding: 7px;
   display: flex;
+  flex-direction: column;
+  width: 200px;
 
   a {
     font-weight: bold;
     color: white;
 
     &.router-link-exact-active {
-      color: #0D3B66;
+      color: #0d3b66;
     }
   }
 }
 
 .block-link {
-  margin: 5px 0 0 2rem;
+  margin: 5px auto;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 }
 
 .link,
 .user {
-  margin: 5px 0 0 5px;
+  margin: 5px auto;
+}
+
+.container-profile {
+  width: auto;
+  display: flex;
+  flex-direction: row;
 }
 
 .logo-nav {
   height: 35px;
-  margin-top: 5px;
-  margin-left: 10px;
+  width: 35px;
+  margin: 5px auto 10px;
 }
 
 .userPicture {
   border: #000000 solid 1px;
-  margin-top: -7px;
   border-radius: 30px;
   width: 40px;
   height: 40px;

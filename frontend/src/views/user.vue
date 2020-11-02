@@ -1,6 +1,38 @@
 <template>
   <div class="profile">
     <div class="main-profile">
+
+      <div class="userPost-container">
+        <h2 class="lastPostsTitle">My last posts</h2>
+
+        <div class="posts box">
+          <p class="postContent">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+            Accusantium aliquid consectetur culpa deleniti distinctio dolore
+            ducimus, ea eligendi et ex facilis illum ipsa optio, placeat quos
+            rem sequi sit veritatis.
+          </p>
+        </div>
+
+        <div class="posts box">
+          <p class="postContent">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+            Accusantium aliquid consectetur culpa deleniti distinctio dolore
+            ducimus, ea eligendi et ex facilis illum ipsa optio, placeat quos
+            rem sequi sit veritatis.
+          </p>
+        </div>
+
+        <div class="posts box">
+          <p class="postContent">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+            Accusantium aliquid consectetur culpa deleniti distinctio dolore
+            ducimus, ea eligendi et ex facilis illum ipsa optio, placeat quos
+            rem sequi sit veritatis.
+          </p>
+        </div>
+      </div>
+
       <div class="information box">
         <form>
           <div class="form-group profile-picture-form">
@@ -48,37 +80,6 @@
         >
           Déconnexion
         </button>
-      </div>
-
-      <div class="userPost-container">
-        <h2 class="lastPostsTitle">My last posts</h2>
-
-        <div class="posts box">
-          <p class="postContent">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-            Accusantium aliquid consectetur culpa deleniti distinctio dolore
-            ducimus, ea eligendi et ex facilis illum ipsa optio, placeat quos
-            rem sequi sit veritatis.
-          </p>
-        </div>
-
-        <div class="posts box">
-          <p class="postContent">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-            Accusantium aliquid consectetur culpa deleniti distinctio dolore
-            ducimus, ea eligendi et ex facilis illum ipsa optio, placeat quos
-            rem sequi sit veritatis.
-          </p>
-        </div>
-
-        <div class="posts box">
-          <p class="postContent">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-            Accusantium aliquid consectetur culpa deleniti distinctio dolore
-            ducimus, ea eligendi et ex facilis illum ipsa optio, placeat quos
-            rem sequi sit veritatis.
-          </p>
-        </div>
       </div>
     </div>
   </div>
@@ -150,9 +151,15 @@ export default {
 </script>
 
 <style lang="scss">
+html,
+body {
+  height: 100%;
+}
+
 .profile {
   display: flex;
   flex-direction: column;
+  margin: auto;
 }
 
 .main-profile {
@@ -164,7 +171,7 @@ export default {
 .information {
   width: 300px;
   height: auto;
-  margin: 6rem 0 0 2rem;
+  margin: 1rem 0 0 2rem;
   display: flex;
   flex-direction: column;
 }
