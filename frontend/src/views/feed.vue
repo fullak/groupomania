@@ -1,8 +1,9 @@
 <template>
-  <div class="test">
+  <div class="container">
+    <h2 class="container-title">Poster un message :</h2>
     <div class="message-container">
-      <input type="text" class="message-input" v-model="message" />
-      <button class="send-message" @click="postAMessage">Send</button>
+      <textarea type="text" class="textarea message-input is-primary" placeholder="e.g. Hello world" v-model="message"></textarea>
+      <button class="button send-message is-primary" @click="postAMessage">Send</button>
     </div>
 
     <AllPosts />
@@ -65,19 +66,25 @@ body {
   height: 100%;
 }
 
+.container {
+  width: 100%;
+}
+
+.container-title {
+  font-size: 25px;
+  font-weight: bold;
+  margin-top: 1rem;
+}
+
 .message-container {
   display: flex;
   flex-direction: column;
-}
-
-.message-input {
-  margin: 1rem;
-  height: 200px;
-  width: 450px;
+  margin: 1rem auto;
+  width: 50%;
 }
 
 .send-message {
-  width: 50px;
-  margin: auto;
+  width: 150px;
+  margin: 1rem auto;
 }
 </style>

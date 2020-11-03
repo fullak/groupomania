@@ -21,19 +21,16 @@
           >Fil d'actualité</router-link
         >
         <div class="container-profile">
-        <router-link
-          to="/profile"
-          v-if="this.$store.state.isLogged"
-          class="link"
-        >
-          Profile
-          <img :src="this.$store.state.userPicture" class="userPicture" />
-        </router-link>
+          <router-link
+            to="/profile"
+            v-if="this.$store.state.isLogged"
+            class="link"
+          >
+            Profile
+            <img :src="this.$store.state.userPicture" class="userPicture" />
+          </router-link>
         </div>
       </div>
-
-          <button class="post-a-message is-danger">Poster un message</button>
-
     </nav>
     <router-view />
   </div>

@@ -1,9 +1,10 @@
 <template>
   <div>
+    <h2 class="feed-title">Fil d'actualités : </h2>
     <ul :class="displayAllPosts()">
       <template v-for="post in posts">
         <li class="box message-liste" :key="post.id">
-          <span> Id : {{ post.id }} </span>
+          <span> authorId : {{ post.authorId }} </span>
           <span> Message : {{ post.message }}</span>
         </li>
       </template>
@@ -55,9 +56,16 @@ export default {
 </script>
 
 <style lang="scss">
+.feed-title{
+  font-size: 25px;
+  font-weight: bold;
+  text-align: left;
+}
+
 .message-liste {
   margin: 3rem auto;
   display: flex;
   flex-direction: column;
+  width: 75%;
 }
 </style>

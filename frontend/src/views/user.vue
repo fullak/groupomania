@@ -1,35 +1,18 @@
 <template>
   <div class="profile">
     <div class="main-profile">
-
       <div class="userPost-container">
-        <h2 class="lastPostsTitle">My last posts</h2>
+        <h2 class="lastPostsTitle">My last posts :</h2>
 
         <div class="posts box">
-          <p class="postContent">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-            Accusantium aliquid consectetur culpa deleniti distinctio dolore
-            ducimus, ea eligendi et ex facilis illum ipsa optio, placeat quos
-            rem sequi sit veritatis.
-          </p>
-        </div>
-
-        <div class="posts box">
-          <p class="postContent">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-            Accusantium aliquid consectetur culpa deleniti distinctio dolore
-            ducimus, ea eligendi et ex facilis illum ipsa optio, placeat quos
-            rem sequi sit veritatis.
-          </p>
-        </div>
-
-        <div class="posts box">
-          <p class="postContent">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-            Accusantium aliquid consectetur culpa deleniti distinctio dolore
-            ducimus, ea eligendi et ex facilis illum ipsa optio, placeat quos
-            rem sequi sit veritatis.
-          </p>
+          <ul :class="getUserPosts()">
+            <template v-for="post in myPosts">
+              <li class="box message-liste" :key="post.id">
+                <span> authorId : {{ post.authorId }} </span>
+                <span> Message : {{ post.message }}</span>
+              </li>
+            </template>
+          </ul>
         </div>
       </div>
 
@@ -98,6 +81,7 @@ export default {
       birthday: this.$store.state.userBirthday,
       feedbackMessageAvatar: "",
       seen: false,
+      myPosts: [],
     };
   },
   computed: {
@@ -145,6 +129,26 @@ export default {
         age--;
       }
       return age;
+    },
+    getUserPosts() {
+      axios
+        .get("http://localhost:3000/user/posts/" + this.$store.state.userId, {
+          headers: {
+            Authorization: `token ${this.$store.state.userToken}`,
+          },
+        })
+        .then((response) => {
+         if (this.myPosts.length != response.data.length){
+          this.myPosts = response.data;
+          console.log(response.data);
+          console.log(response);
+          } else {
+            return;
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
   },
 };

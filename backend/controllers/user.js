@@ -110,3 +110,13 @@ exports.getAllPosts = (req, res, next) => {
         return res.status(200).json(result);
     })
 };
+
+exports.getUserPosts = (req, res, next) => {
+    console.log('AAAAAA')
+    console.log(req.params.id);
+    sql.query('SELECT * FROM posts WHERE authorId="' + req.params.id + '"', (err, result) => {
+        if (err) throw err;
+        console.log(result);
+        return res.status(200).json(result);
+    })
+};
