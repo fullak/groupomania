@@ -4,12 +4,21 @@
       <div class="userPost-container">
         <h2 class="lastPostsTitle">My last posts :</h2>
 
-        <div class="posts box">
+        <div class="posts">
           <ul :class="getUserPosts()">
             <template v-for="post in myPosts">
               <li class="box message-liste" :key="post.id">
-                <span> authorId : {{ post.authorId }} </span>
-                <span> Message : {{ post.message }}</span>
+                <span class="post-message"> {{ post.message }}</span>
+                <div class="inline-icons">
+                  <a href="#" class="heart-icon"
+                    ><i class="fas fa-heart heart-icon"></i
+                  ></a>
+                  <span class="date-of-post">
+                    {{ post.date }} |
+                    <a href="#" @click="deleteAPost(post.id)" class="trash-icon"
+                      ><i class="fas fa-trash-alt"></i></a
+                  ></span>
+                </div>
               </li>
             </template>
           </ul>
@@ -33,8 +42,8 @@
                 class="form-input"
               />
               <button
-                class="button is-primary active"
-                @click.prevent="uploadImage"
+                class="button is-danger active"
+                @click.prevent="uploadProfilPicture"
               >
                 Mettre à jour la photo de profil
               </button>
@@ -70,7 +79,6 @@
 
 <script>
 // TODO: changer les dimensions de l'image à l'upload
-
 import axios from "axios";
 
 export default {
@@ -80,6 +88,7 @@ export default {
       currentLogged: localStorage.getItem("userId"),
       birthday: this.$store.state.userBirthday,
       feedbackMessageAvatar: "",
+      test: this.$store.state.userFirstname,
       seen: false,
       myPosts: [],
     };
@@ -96,7 +105,7 @@ export default {
       this.$store.commit("CLEAR_STATE");
       this.$router.push("/");
     },
-    uploadImage() {
+    uploadProfilPicture() {
       let file = this.$refs.file.files[0];
       let formData = new FormData();
 
@@ -138,10 +147,31 @@ export default {
           },
         })
         .then((response) => {
-         if (this.myPosts.length != response.data.length){
-          this.myPosts = response.data;
-          console.log(response.data);
-          console.log(response);
+          if (this.myPosts.length != response.data.length) {
+            this.myPosts = response.data;
+            console.log(response.data);
+            console.log(response);
+          } else {
+            return;
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    deleteAPost(post) {
+      axios
+        .delete("http://localhost:3000/user/posts/" + post, {
+          headers: {
+            Authorization: `token ${this.$store.state.userToken}`,
+          },
+        })
+        .then((response) => {
+          if (this.myPosts.length != response.data.length) {
+            this.myPosts = response.data;
+            console.log(response.data);
+            console.log("AAAAA");
+            console.log(this.myPosts);
           } else {
             return;
           }
@@ -174,7 +204,7 @@ body {
 
 .information {
   width: 300px;
-  height: auto;
+  height: 100%;
   margin: 1rem 0 0 2rem;
   display: flex;
   flex-direction: column;
@@ -232,5 +262,38 @@ body {
   width: 80%;
   height: auto;
   margin: 2rem auto 0;
+}
+
+.message-liste {
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.post-message {
+  text-align: left;
+}
+
+.inline-icons {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.heart-icon {
+  :hover {
+    color: red;
+  }
+}
+
+.trash-icon {
+  :hover {
+    color: red;
+  }
+}
+
+.date-of-post {
+  font-size: 12px;
+  margin: auto;
 }
 </style>

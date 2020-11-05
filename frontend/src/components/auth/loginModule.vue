@@ -78,7 +78,7 @@ export default {
           this.$store.state.isLogged = true;
           this.$store.dispatch("getOneUser");
           setTimeout(() => {
-            this.$router.push({ path: "/profile" });
+            this.$router.push({ path: "/feed" });
           }, 3500);
           document.querySelector("#loginModal").classList.add("is-active");
         })

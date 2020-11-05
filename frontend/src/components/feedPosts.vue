@@ -2,10 +2,17 @@
   <div>
     <h2 class="feed-title">Fil d'actualités : </h2>
     <ul :class="displayAllPosts()">
+      
       <template v-for="post in posts">
-        <li class="box message-liste" :key="post.id">
-          <span> authorId : {{ post.authorId }} </span>
-          <span> Message : {{ post.message }}</span>
+        <li class="box posts-liste" :key="post.message">
+          <div class="user-information">
+            <img :src="post.image" alt="user profil picture" class="user-profil-picture">
+          </div>
+          <div class="user-message">
+            <span class="user-firstname">{{ post.firstname }}</span> 
+            <p>{{ post.message }}</p>
+            <span class="date-of-post">{{ post.date }}</span>
+          </div>
         </li>
       </template>
     </ul>
@@ -26,6 +33,9 @@ export default {
   computed: {
     loggedIn() {
       return this.$store.getters.isLogged;
+    },
+    userFirstname() {
+      return this.$store.getters.userFirstname;
     },
     userToken() {
       return this.$store.state.userToken;
@@ -62,10 +72,39 @@ export default {
   text-align: left;
 }
 
-.message-liste {
+.posts-liste {
   margin: 3rem auto;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   width: 75%;
+}
+
+.user-information {
+  width: 10%;
+}
+
+.user-profil-picture {
+  width: 50px;
+  height: 50px;
+  border-radius: 25px;
+}
+
+.user-message {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-left: 25px;
+  text-align: left;
+}
+
+.user-firstname {
+  font-weight: bold;
+  text-align: left;
+}
+
+.date-of-post {
+  font-size: 12px;
+  text-align: right;
+  padding-top: 15px;
 }
 </style>

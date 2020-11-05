@@ -5,9 +5,6 @@ const bodyParser = require('body-parser');
 const bdd = require('./models/db'); 
 
 const userRoutes = require('./routes/user');
-// const filRoutes = require('./routes/filactualite');
-// const profileRoutes = require('./routes/profile');
-// const adminboardRoutes = require('./routes/adminboard');
 
 // var helmet = require('helmet');
 // app.use(helmet());

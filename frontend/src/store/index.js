@@ -18,8 +18,11 @@ export default new Vuex.Store({
         userBirthday: '',
     },
     getters: {
-        isLogged: state => {
+        isLogged: (state) => {
             return state.isLogged;
+        },
+        userFirstname: (state) => {
+            return state.userFirstname
         }
     },
     mutations: {

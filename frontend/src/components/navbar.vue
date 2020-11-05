@@ -30,6 +30,7 @@
             <img :src="this.$store.state.userPicture" class="userPicture" />
           </router-link>
         </div>
+        <button class="button disconnect-button" @click="logout">Deconnexion</button>
       </div>
     </nav>
     <router-view />
@@ -39,6 +40,14 @@
 <script>
 export default {
   name: "navbar",
+  methods: {
+    logout() {
+      localStorage.clear();
+      this.$store.commit("LOGOUT");
+      this.$store.commit("CLEAR_STATE");
+      this.$router.push("/");
+    },
+  }
 };
 </script>
 
@@ -92,5 +101,9 @@ export default {
   border-radius: 30px;
   width: 40px;
   height: 40px;
+}
+
+.disconnect-button {
+  margin: 5rem 0;
 }
 </style>

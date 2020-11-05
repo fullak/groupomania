@@ -89,7 +89,7 @@ exports.addPost = (req, res) => {
     console.log(req.body);
     const post = new Post({
         authorId: req.body.authorId,
-        image: req.body.image,
+        image: '',
         message: req.body.message,
     });
     Post.create(post, (err, data) => {
@@ -99,24 +99,34 @@ exports.addPost = (req, res) => {
             });
             return;
         }
+        // let file = `${req.protocol}://${req.get('host')}/posts/${req.file.filename}`;
+        // this.image = file;
         res.send(data);
     })
 };
 
 exports.getAllPosts = (req, res, next) => {
-    sql.query('SELECT * FROM posts WHERE isflagged="0" ORDER BY id DESC', (err, result) => {
+    sql.query('SELECT *, DATE_FORMAT(date, "le %d/%m/%Y à %T") date FROM posts INNER JOIN users ON posts.authorId = users.id ORDER BY posts.id DESC', (err, result) => {
+        if (err) throw err;
+        // console.log(result);
+        return res.status(200).json(result);
+    })
+};
+
+exports.getUserPosts = (req, res, next) => {
+    sql.query('SELECT *, DATE_FORMAT(date, "le %d/%m/%Y à %T") date FROM posts WHERE authorId="' + req.params.id + '"ORDER BY id DESC', (err, result) => {
         if (err) throw err;
         console.log(result);
         return res.status(200).json(result);
     })
 };
 
-exports.getUserPosts = (req, res, next) => {
-    console.log('AAAAAA')
-    console.log(req.params.id);
-    sql.query('SELECT * FROM posts WHERE authorId="' + req.params.id + '"', (err, result) => {
+exports.deleteAPost = (req, res, next) => {
+    sql.query('DELETE FROM posts WHERE id="' + req.params.id + '"', (err, result) => {
         if (err) throw err;
+        console.log('AAAAAAAAAA')
+        console.log(req.params);
         console.log(result);
         return res.status(200).json(result);
     })
-};
+}

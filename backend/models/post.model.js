@@ -1,10 +1,10 @@
 const sql = require('./db');
 
 //constructor
-const Post = function (user) {
-    this.authorId = user.authorId
-    this.image = user.image
-    this.message = user.message
+const Post = function (post) {
+    this.authorId = post.authorId
+    this.image = post.image
+    this.message = post.message
 };
 
 //Create a user

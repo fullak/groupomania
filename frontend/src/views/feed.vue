@@ -2,8 +2,30 @@
   <div class="container">
     <h2 class="container-title">Poster un message :</h2>
     <div class="message-container">
-      <textarea type="text" class="textarea message-input is-primary" placeholder="e.g. Hello world" v-model="message"></textarea>
-      <button class="button send-message is-primary" @click="postAMessage">Send</button>
+      <textarea
+        type="text"
+        class="textarea message-input is-primary"
+        placeholder="e.g. Hello world"
+        v-model="message"
+      ></textarea>
+      <input
+                type="file"
+                id="image"
+                ref="file"
+                accept="image/*"
+                class="form-input"
+              />
+      <div class="action-button">
+        <button
+          class="button is-info upload-image"
+          @click.prevent="uploadImage"
+        >
+          Upload image
+        </button>
+        <button class="button send-message is-primary" @click="postAMessage">
+          Send
+        </button>
+      </div>
     </div>
 
     <AllPosts />
@@ -23,8 +45,9 @@ export default {
     return {
       currentLogged: localStorage.getItem("userId"),
       authorId: "",
-      image: "",
+      // image: "",
       message: "",
+      feedbackMessagePicture: "",
     };
   },
   computed: {
@@ -39,12 +62,12 @@ export default {
     postAMessage() {
       let post = {
         authorId: this.$store.state.userId,
-        image: this.image,
+        image: this.$refs.file.files[0],
         message: this.message,
       };
-      console.log(post);
+
       axios
-        .post("http://localhost:3000/user/posts", post)
+        .post("http://localhost:3000/user/posts/", post)
         .then((response) => {
           location.reload();
           console.log(
@@ -81,6 +104,16 @@ body {
   flex-direction: column;
   margin: 1rem auto;
   width: 50%;
+}
+
+.action-button {
+  display: flex;
+  flex-direction: row;
+}
+
+.upload-image {
+  width: 150px;
+  margin: 1rem auto 0;
 }
 
 .send-message {
