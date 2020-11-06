@@ -11,7 +11,11 @@
           <div class="user-message">
             <span class="user-firstname">{{ post.firstname }}</span> 
             <p>{{ post.message }}</p>
-            <span class="date-of-post">{{ post.date }}</span>
+            <div class="icons-container">
+              <span class="date-of-post">{{ post.date }}</span>
+              <a href="#"><i class="fas fa-comment-dots comment-icon"></i></a>
+              <a href="#" @click="LikedAPost(92)"><i class="fas fa-heart heart-icon"></i></a>
+            </div>
           </div>
         </li>
       </template>
@@ -44,7 +48,7 @@ export default {
   methods: {
     displayAllPosts() {
       axios
-        .get("http://localhost:3000/user/posts", {
+        .get("http://localhost:3000/posts/allPosts", {
           headers: {
             Authorization: `token ${this.$store.state.userToken}`,
           },
@@ -61,6 +65,23 @@ export default {
           console.log(error);
         });
     },
+    LikedAPost(id) {
+      console.log(this.posts[0].message);
+      axios
+        .put("http://localhost:3000/posts/", id, {
+          headers: {
+            Authorization: `token ${this.$store.state.userToken}`,
+          },
+        })
+        .then((response) => {
+          this.posts.isLiked ++;
+          console.log(this.posts.isLiked);
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+    }
   },
 };
 </script>
@@ -104,7 +125,21 @@ export default {
 
 .date-of-post {
   font-size: 12px;
-  text-align: right;
   padding-top: 15px;
+}
+
+.heart-icon {
+  float: right;
+  :hover {
+    color: red;
+  }
+}
+
+.comment-icon {
+  float: right;
+  margin-left: 10px;
+  :hover {
+    color: rgb(115, 164, 255);
+  }
 }
 </style>

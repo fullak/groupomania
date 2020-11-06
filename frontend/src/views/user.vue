@@ -141,7 +141,7 @@ export default {
     },
     getUserPosts() {
       axios
-        .get("http://localhost:3000/user/posts/" + this.$store.state.userId, {
+        .get("http://localhost:3000/posts/" + this.$store.state.userId, {
           headers: {
             Authorization: `token ${this.$store.state.userToken}`,
           },
@@ -161,7 +161,7 @@ export default {
     },
     deleteAPost(post) {
       axios
-        .delete("http://localhost:3000/user/posts/" + post, {
+        .delete("http://localhost:3000/posts/", post, {
           headers: {
             Authorization: `token ${this.$store.state.userToken}`,
           },

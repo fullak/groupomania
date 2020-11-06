@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const bdd = require('./models/db'); 
 
 const userRoutes = require('./routes/user');
+const postsRoutes = require('./routes/posts');
 
 // var helmet = require('helmet');
 // app.use(helmet());
@@ -21,7 +22,7 @@ app.use(express.static('./images/'));
 app.use(bodyParser.json())
 
 app.use('/user', userRoutes);
-app.use('/posts', userRoutes);
+app.use('/posts/', postsRoutes);
 app.use('/profile/', userRoutes);
 // app.use('/dashBoard/', adminboardRoutes);
 

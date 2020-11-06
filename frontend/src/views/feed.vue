@@ -67,7 +67,7 @@ export default {
       };
 
       axios
-        .post("http://localhost:3000/user/posts/", post)
+        .post("http://localhost:3000/posts/", post)
         .then((response) => {
           location.reload();
           console.log(
