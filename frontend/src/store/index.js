@@ -67,7 +67,7 @@ export default new Vuex.Store({
                         this.state.userFirstname = result.data[0].firstname;
                         this.state.userName = result.data[0].name;
                         this.state.userEmail = result.data[0].email;
-                        this.state.userPicture = result.data[0].image;
+                        this.state.userPicture = result.data[0].profile_picture;
                         this.state.userPassword = result.data[0].password;
                         this.state.userBirthday = result.data[0].date_of_birth;
                         this.state.userRole = result.data[0].role;

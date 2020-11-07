@@ -77,7 +77,7 @@ exports.updateImage = (req, res, next) => {
         })
     }
 
-    sql.query('UPDATE users SET image="' + imageToUpload + '" WHERE id="' + req.body.userId + '"', (err, result) => {
+    sql.query('UPDATE users SET profile_picture="' + imageToUpload + '" WHERE id="' + req.body.userId + '"', (err, result) => {
         if (err) throw err;
         return res.status(201).json({ message: 'Avatar changé ' })
     })

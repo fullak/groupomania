@@ -3,26 +3,22 @@
     <div class="main-profile">
       <div class="userPost-container">
         <h2 class="lastPostsTitle">My last posts :</h2>
-
-        <div class="posts">
-          <ul :class="getUserPosts()">
-            <template v-for="post in myPosts">
-              <li class="box message-liste" :key="post.id">
-                <span class="post-message"> {{ post.message }}</span>
-                <div class="inline-icons">
-                  <a href="#" class="heart-icon"
-                    ><i class="fas fa-heart heart-icon"></i
-                  ></a>
-                  <span class="date-of-post">
-                    {{ post.date }} |
-                    <a href="#" @click="deleteAPost(post.id)" class="trash-icon"
-                      ><i class="fas fa-trash-alt"></i></a
-                  ></span>
-                </div>
-              </li>
-            </template>
-          </ul>
-        </div>
+        <ul :class="getUserPosts()" class="post-container">
+          <template v-for="(post, postIndex) in posts" :index="postIndex">
+            <li class="box posts-liste" :key="postIndex">
+              <Post
+                class="post-content"
+                :firstname="post.firstname"
+                :id="post.id"
+                :authorId="post.authorId"
+                :message="post.message"
+                :image="post.image"
+                :profilePicture="post.profile_picture"
+                :date="post.date"
+              />
+            </li>
+          </template>
+        </ul>
       </div>
 
       <div class="information box">
@@ -80,9 +76,13 @@
 <script>
 // TODO: changer les dimensions de l'image à l'upload
 import axios from "axios";
+import Post from "../components/post";
 
 export default {
   name: "userProfile",
+  components: {
+    Post,
+  },
   data() {
     return {
       currentLogged: localStorage.getItem("userId"),
@@ -90,7 +90,7 @@ export default {
       feedbackMessageAvatar: "",
       test: this.$store.state.userFirstname,
       seen: false,
-      myPosts: [],
+      posts: [],
     };
   },
   computed: {
@@ -108,6 +108,8 @@ export default {
     uploadProfilPicture() {
       let file = this.$refs.file.files[0];
       let formData = new FormData();
+      console.log('######');
+      console.log(file);
 
       formData.append("image", file);
       formData.append("userId", this.$store.state.userId);
@@ -147,8 +149,9 @@ export default {
           },
         })
         .then((response) => {
-          if (this.myPosts.length != response.data.length) {
-            this.myPosts = response.data;
+          if (this.posts.length != response.data.length) {
+            this.posts = response.data;
+            console.log(this.posts);
             console.log(response.data);
             console.log(response);
           } else {
@@ -248,9 +251,7 @@ body {
 }
 
 .userPost-container {
-  width: 700px;
-  height: auto;
-  margin: 2rem 0 0 2rem;
+  width: 800px;
 }
 
 .lastPostsTitle {
@@ -258,42 +259,9 @@ body {
   font-weight: bolder;
 }
 
-.posts {
-  width: 80%;
-  height: auto;
-  margin: 2rem auto 0;
+.posts-liste {
+  margin: 3rem auto;
+  width: 600px;
 }
 
-.message-liste {
-  margin: auto;
-  display: flex;
-  flex-direction: column;
-}
-
-.post-message {
-  text-align: left;
-}
-
-.inline-icons {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-}
-
-.heart-icon {
-  :hover {
-    color: red;
-  }
-}
-
-.trash-icon {
-  :hover {
-    color: red;
-  }
-}
-
-.date-of-post {
-  font-size: 12px;
-  margin: auto;
-}
 </style>
