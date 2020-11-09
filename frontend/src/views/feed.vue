@@ -9,18 +9,29 @@
         v-model="message"
       ></textarea>
       <input
-                type="file"
-                id="image"
-                ref="fileInput"
-                @input="pickFile"
-                accept="image/*"
-                class="form-input"
-                v-if="seen"
-              />
+        type="file"
+        id="image"
+        ref="fileInput"
+        @input="pickFile"
+        accept="image/*"
+        class="form-input"
+        v-if="seen"
+      />
 
-      <div v-if="previewImage" class="image-to-display imagePreviewWrapper" :style="{ 'background-image': `url(${previewImage})` }" @click="selectImage"></div>
+      <div
+        v-if="previewImage"
+        class="image-to-display imagePreviewWrapper"
+        :style="{ 'background-image': `url(${previewImage})` }"
+        @click="selectImage"
+      ></div>
       <div class="action-button">
-        <button v-if="!seen" @click="seen = true" class="button is-info upload-image">Add a GIF</button>
+        <button
+          v-if="!seen"
+          @click="seen = true"
+          class="button is-info upload-image"
+        >
+          Add a GIF
+        </button>
         <button class="button send-message is-primary" @click="postAMessage()">
           Send
         </button>
@@ -63,7 +74,7 @@ export default {
     postAMessage() {
       let file = this.$refs.fileInput.files[0];
       let formData = new FormData();
-      console.log(this.$refs.fileInput.files[0]);
+
       formData.append("image", file);
       formData.append("authorId", this.$store.state.userId);
       formData.append("message", this.message);
@@ -84,22 +95,22 @@ export default {
           console.log(error);
         });
     },
-    selectImage () {
-          this.$refs.fileInput.click()
-      },
-      pickFile () {
-        let input = this.$refs.fileInput
-        let file = input.files
-        if (file && file[0]) {
-          let reader = new FileReader
-          reader.onload = e => {
-            this.previewImage = e.target.result
-          }
-          reader.readAsDataURL(file[0])
-          this.$emit('input', file[0])
-        }
+    selectImage() {
+      this.$refs.fileInput.click();
+    },
+    pickFile() {
+      let input = this.$refs.fileInput;
+      let file = input.files;
+      if (file && file[0]) {
+        let reader = new FileReader();
+        reader.onload = (e) => {
+          this.previewImage = e.target.result;
+        };
+        reader.readAsDataURL(file[0]);
+        this.$emit("input", file[0]);
       }
-  }
+    },
+  },
 };
 </script>
 
@@ -147,12 +158,12 @@ body {
 }
 
 .imagePreviewWrapper {
-    width: 250px;
-    height: 250px;
-    display: block;
-    cursor: pointer;
-    margin: 1rem auto 30px;
-    background-size: cover;
-    background-position: center center;
+  width: 250px;
+  height: 250px;
+  display: block;
+  cursor: pointer;
+  margin: 1rem auto 30px;
+  background-size: cover;
+  background-position: center center;
 }
 </style>

@@ -8,11 +8,16 @@ const postsMulter = require('../middlewares/posts-multer');
 
 const verifyPassword = require('../middlewares/verifyPasswordStrength');
 
+// * route Posts
 router.post('/', auth, postsMulter, postsCtrl.addPost);
 router.get('/allPosts', postsCtrl.getAllPosts);
 router.get('/:id', postsCtrl.getUserPosts);
 router.delete('/:id', auth, postsCtrl.deleteAPost);
-router.post('/:id/', auth, postsCtrl.like);
+
+// *  route Comments
+router.post('/comments', auth, postsCtrl.postAComment);
+router.get('/comments/:id', auth, postsCtrl.getPostComments); 
+
 
 
 module.exports = router;

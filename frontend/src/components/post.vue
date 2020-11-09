@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container" :class="displayAllComments(id)">
     <div class="content">
       <div class="user-information">
         <img
@@ -7,18 +7,56 @@
           alt="user profil picture"
           class="user-profile-picture"
         />
+        <span class="user-firstname"> {{ firstname }}</span>
       </div>
       <div class="user-message">
-        <span class="user-firstname"> {{ firstname }}</span>
-        <p>{{ message }}</p>
-        <img :src="image" alt="" class="post-image" />
-        <div class="informations">
+        <div class="message-content box">
+          <p class="message is-primary">{{ message }}</p>
+          <img :src="image" alt="" class="post-image" />
           <div class="icons-container">
-            <a href="#" @click="likeAPost(id)"
+            <a href="#"
+              ><span>{{ this.likes }} </span
               ><i class="fas fa-heart heart-icon"></i
             ></a>
-            <a href="#"><i class="fas fa-comment-dots comment-icon"></i></a>
+            <a @click="seen = !seen"
+              ><i class="fas fa-comment-dots comment-icon"></i
+              ><span> {{ this.comments.length }} comments</span></a
+            >
           </div>
+        </div>
+
+        <div class="post-a-comment" v-if="seen">
+          <textarea
+            v-if="seen"
+            class="input-comment textarea is-primary"
+            v-model="commentToPost"
+          />
+          <button
+            class="button is-primary send-comment"
+            @click="postAComment()"
+          >
+            send
+          </button>
+        </div>
+        <div class="comment">
+          <ul class="comment-container" v-if="seen">
+            <template
+              v-for="(comment, commentIndex) in comments"
+              :index="commentIndex"
+            >
+              <li class="comment-liste" :key="commentIndex">
+                <Comment
+                  :firstname="comment.firstname"
+                  :message="comment.message"
+                  :date="comment.date"
+                  :profilePicture="comment.profile_picture"
+                />
+                <div class="comments-separation"></div>
+              </li>
+            </template>
+          </ul>
+        </div>
+        <div class="informations">
           <span class="date-of-post"> {{ date }} | postId: {{ id }}</span>
         </div>
       </div>
@@ -28,12 +66,28 @@
 
 <script>
 import axios from "axios";
+import Comment from "../components/comment";
 
 export default {
   name: "post",
+  components: {
+    Comment,
+  },
+  data() {
+    return {
+      seen: false,
+      comments: [],
+      likes: 0,
+      commentToPost: "",
+      feedbackMessage: '',
+    };
+  },
   computed: {
     userFirstname() {
       return this.$store.getters.userFirstname;
+    },
+    userToken() {
+      return this.$store.state.userToken;
     },
   },
   props: [
@@ -47,10 +101,33 @@ export default {
     "profilePicture",
   ],
   methods: {
-    likeAPost(id) {
-      console.log(id);
+    displayAllComments(id) {
       axios
-        .post("http://localhost:3000/posts/", id, {
+        .get("http://localhost:3000/posts/comments/" + id, {
+          headers: {
+            Authorization: `token ${this.$store.state.userToken}`,
+          },
+        })
+        .then((response) => {
+          if (this.comments.length != response.data.length) {
+            this.comments = response.data;
+          } else {
+            return;
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    postAComment() {
+      let comment = {
+        message: this.commentToPost,
+        postId: this.id,
+        authorId: this.$store.state.userId,
+      };
+      console.log(comment);
+      axios
+        .post("http://localhost:3000/posts/comments/", comment, {
           headers: {
             // "Content-Type": "multipart/form-data",
             Authorization: `token ${this.$store.state.userToken}`,
@@ -58,9 +135,10 @@ export default {
         })
         .then((response) => {
           console.log(response);
+          // location.reload();
         })
         .catch((error) => {
-          console.log("#####");
+          console.log(this.commentToPost);
           console.log(error);
         });
     },
@@ -78,18 +156,26 @@ export default {
 .content {
   display: flex;
   flex-direction: row;
+  width: 600px;
+  border-bottom: 1px solid rgba(168, 168, 168, 0.623);
 }
 
 .user-information {
   display: flex;
-  flex-direction: row;
-  width: 100px;
+  flex-direction: column;
+  width: 20%;
+  height: 20%;
 }
 
 .user-profile-picture {
   width: 60px;
   height: 60px;
   border-radius: 50%;
+  margin: 0 auto;
+}
+
+.user-firstname {
+  font-weight: bold;
 }
 
 .user-message {
@@ -99,14 +185,21 @@ export default {
   width: 100%;
 }
 
-.user-firstname {
-  font-weight: bold;
+.post-image {
+  width: 350px;
+  padding-bottom: 1rem;
+  margin-left: 10%;
 }
 
-.post-image {
-  width: 300px;
+.message-content {
+  margin-left: 25px;
+  width: auto;
+}
+
+.message {
+  text-align: center;
+  width: 80%;
   margin: auto;
-  padding-bottom: 1rem;
 }
 
 .informations {
@@ -121,23 +214,43 @@ export default {
   text-align: right;
 }
 
-.icons-container {
-  width: auto;
-  width: 100px;
-}
-
 .heart-icon {
   margin-right: 10px;
-  font-size: 20px;
   :hover {
     color: red;
   }
 }
 
 .comment-icon {
-  font-size: 20px;
   :hover {
     color: royalblue;
   }
+}
+
+.comments-separation {
+  border-bottom: gray 1px solid;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.comment-liste {
+  list-style: none;
+}
+
+.post-a-comment {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.input-comment {
+  height: 80px;
+  margin: auto;
+}
+
+.send-comment {
+  width: 25%;
+  margin: auto;
+  margin-top: 0.5rem;
 }
 </style>

@@ -5,7 +5,7 @@
         <h2 class="lastPostsTitle">My last posts :</h2>
         <ul :class="getUserPosts()" class="post-container">
           <template v-for="(post, postIndex) in posts" :index="postIndex">
-            <li class="box posts-liste" :key="postIndex">
+            <li class="posts-liste" :key="postIndex">
               <Post
                 class="post-content"
                 :firstname="post.firstname"
@@ -46,7 +46,7 @@
             </div>
 
             <button
-              class="button is-primary testing"
+              class="button is-primary change-button"
               v-if="!seen"
               @click="seen = true"
             >
@@ -74,7 +74,6 @@
 </template>
 
 <script>
-// TODO: changer les dimensions de l'image à l'upload
 import axios from "axios";
 import Post from "../components/post";
 
@@ -188,80 +187,49 @@ export default {
 </script>
 
 <style lang="scss">
-html,
-body {
-  height: 100%;
-}
 
 .profile {
   display: flex;
   flex-direction: column;
-  margin: auto;
+  width: 100%;
 }
 
 .main-profile {
   display: flex;
   flex-direction: row;
-  justify-content: center;
+}
+
+.lastPostsTitle {
+  font-size: 25px;
+  font-weight: bold;
+  margin: 1rem;
 }
 
 .information {
+  display: flex;
+  flex-direction: column;
+  height: 450px;
   width: 300px;
-  height: 100%;
-  margin: 1rem 0 0 2rem;
-  display: flex;
-  flex-direction: column;
-}
-
-.profile-picture-form {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 1rem;
+  position: fixed;
+  right: 0;
+  top: 10;
+  margin: 1rem 1rem 0 0;
 }
 
 .profilePicture {
-  border: #757763 solid 1px;
-  border-radius: 5rem;
   width: 150px;
   height: 150px;
-  margin: 1rem auto;
+  border-radius: 50%;
+  margin-bottom: 1rem;
 }
 
-.form-label,
-.form-input {
-  margin-bottom: 0.5rem;
-}
-
-.updateBtn {
-  width: auto;
-  margin: 1rem auto;
+.is-danger,
+.change-button {
+  margin: 1rem auto 1rem;
 }
 
 .userInformation {
   display: flex;
   flex-direction: column;
-  text-align: left;
-  margin: auto;
 }
-
-.disconnect-btn {
-  width: 100px;
-  margin: 2rem auto;
-  padding: 0 4rem;
-}
-
-.userPost-container {
-  width: 800px;
-}
-
-.lastPostsTitle {
-  font-size: 25px;
-  font-weight: bolder;
-}
-
-.posts-liste {
-  margin: 3rem auto;
-  width: 600px;
-}
-
 </style>

@@ -3,7 +3,7 @@
     <h2 class="feed-title">Fil d'actualités :</h2>
     <ul :class="displayAllPosts()">
       <template v-for="(post, postIndex) in posts" :index="postIndex">
-        <li class="box posts-liste" :key="postIndex">
+        <li class="posts-liste" :key="postIndex">
           <Post
             :firstname="post.firstname"
             :id="post.id"

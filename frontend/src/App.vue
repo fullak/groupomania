@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Navbar />
+    <Navbar class="nav"/>
   </div>
 </template>
 
@@ -33,6 +33,7 @@ export default {
 <style lang="scss">
 html, body {
   height: 100%;
+  width: 100%;
 }
 
 #app {
@@ -42,4 +43,5 @@ html, body {
   text-align: center;
   color: #2c3e50;
 }
+
 </style>
