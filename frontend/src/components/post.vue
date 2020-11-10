@@ -3,53 +3,57 @@
     <div class="content">
       <div class="user-information">
         <img
-          :src="profilePicture"
-          alt="user profil picture"
-          class="user-profile-picture"
+            :src="profilePicture"
+            alt="user profil picture"
+            class="user-profile-picture"
         />
         <span class="user-firstname"> {{ firstname }}</span>
       </div>
       <div class="user-message">
         <div class="message-content box">
           <p class="message is-primary">{{ message }}</p>
-          <img :src="image" alt="" class="post-image" />
+          <img :src="image" alt="" class="post-image"/>
           <div class="icons-container">
-            <a href="#"
-              ><span>{{ this.likes }} </span
-              ><i class="fas fa-heart heart-icon"></i
+            <a href="#" @click="likeAPost(id)"
+            ><span>{{ this.likes }} </span
+            ><i class="fas fa-heart heart-icon"></i
             ></a>
             <a @click="seen = !seen"
-              ><i class="fas fa-comment-dots comment-icon"></i
-              ><span> {{ this.comments.length }} comments</span></a
+            ><i class="fas fa-comment-dots comment-icon"></i
+            ><span> {{ this.comments.length }} comments</span></a
             >
+            <a href="#" class="trash-icon" v-if="(this.$store.state.userId == authorId)" @click="deleteAPost(id)"><i
+                class="fas fa-trash-alt"></i></a>
+            <a href="#" class="flag-a-post" @click="flagAPost(id)">Signaler</a>
           </div>
         </div>
 
         <div class="post-a-comment" v-if="seen">
           <textarea
-            v-if="seen"
-            class="input-comment textarea is-primary"
-            v-model="commentToPost"
+              v-if="seen"
+              class="input-comment textarea is-primary"
+              v-model="commentToPost"
           />
           <button
-            class="button is-primary send-comment"
-            @click="postAComment()"
+              class="button is-primary send-comment"
+              @click="postAComment()"
           >
             send
           </button>
         </div>
+
         <div class="comment">
           <ul class="comment-container" v-if="seen">
             <template
-              v-for="(comment, commentIndex) in comments"
-              :index="commentIndex"
+                v-for="(comment, commentIndex) in comments"
+                :index="commentIndex"
             >
               <li class="comment-liste" :key="commentIndex">
                 <Comment
-                  :firstname="comment.firstname"
-                  :message="comment.message"
-                  :date="comment.date"
-                  :profilePicture="comment.profile_picture"
+                    :firstname="comment.firstname"
+                    :message="comment.message"
+                    :date="comment.date"
+                    :profilePicture="comment.profile_picture"
                 />
                 <div class="comments-separation"></div>
               </li>
@@ -57,7 +61,9 @@
           </ul>
         </div>
         <div class="informations">
-          <span class="date-of-post"> {{ date }} | postId: {{ id }}</span>
+          <span class="date-of-post"> {{ date }}
+            <span v-if="this.$store.state.userRole == 'admin'">postId: {{ id }}</span>
+          </span>
         </div>
       </div>
     </div>
@@ -77,7 +83,7 @@ export default {
     return {
       seen: false,
       comments: [],
-      likes: 0,
+      likes: '',
       commentToPost: "",
       feedbackMessage: '',
     };
@@ -103,21 +109,21 @@ export default {
   methods: {
     displayAllComments(id) {
       axios
-        .get("http://localhost:3000/posts/comments/" + id, {
-          headers: {
-            Authorization: `token ${this.$store.state.userToken}`,
-          },
-        })
-        .then((response) => {
-          if (this.comments.length != response.data.length) {
-            this.comments = response.data;
-          } else {
-            return;
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+          .get("http://localhost:3000/posts/comments/" + id, {
+            headers: {
+              Authorization: `token ${this.$store.state.userToken}`,
+            },
+          })
+          .then((response) => {
+            if (this.comments.length != response.data.length) {
+              this.comments = response.data;
+            } else {
+              return;
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          });
     },
     postAComment() {
       let comment = {
@@ -127,20 +133,65 @@ export default {
       };
       console.log(comment);
       axios
-        .post("http://localhost:3000/posts/comments/", comment, {
-          headers: {
-            // "Content-Type": "multipart/form-data",
-            Authorization: `token ${this.$store.state.userToken}`,
-          },
-        })
-        .then((response) => {
-          console.log(response);
-          // location.reload();
-        })
-        .catch((error) => {
-          console.log(this.commentToPost);
-          console.log(error);
-        });
+          .post("http://localhost:3000/posts/comments/", comment, {
+            headers: {
+              Authorization: `token ${this.$store.state.userToken}`,
+            },
+          })
+          .then((response) => {
+            console.log(response);
+            location.reload();
+          })
+          .catch((error) => {
+            console.log(this.commentToPost);
+            console.log(error);
+          });
+    },
+    likeAPost(id) {
+      console.log(id);
+      axios
+          .put("http://localhost:3000/posts/" + id + "/isLiked/", {
+            headers: {
+              Authorization: `token ${this.$store.state.userToken}`,
+            },
+          })
+          .then((response) => {
+            console.log(response);
+          })
+          .catch((error) => {
+            console.log(error);
+          })
+    },
+    deleteAPost(id) {
+      console.log(id);
+      axios
+          .delete("http://localhost:3000/posts/" + id, {
+            headers: {
+              Authorization: `token ${this.$store.state.userToken}`,
+            },
+          })
+          .then((response) => {
+            console.log(response);
+            location.reload();
+          })
+          .catch((error) => {
+            console.log(error);
+          })
+    },
+    flagAPost(id) {
+      console.log(id);
+      axios
+          .put('http://localhost:3000/posts/' + id + '/isFlagged/', {
+            headers: {
+              Authorization: `token ${this.$store.state.userToken}`,
+            },
+          })
+          .then((response) => {
+            console.log(response);
+          })
+          .catch((error) => {
+            console.log(error);
+          })
     },
   },
 };
@@ -156,7 +207,7 @@ export default {
 .content {
   display: flex;
   flex-direction: row;
-  width: 600px;
+  width: 100%;
   border-bottom: 1px solid rgba(168, 168, 168, 0.623);
 }
 
@@ -185,15 +236,16 @@ export default {
   width: 100%;
 }
 
-.post-image {
-  width: 350px;
-  padding-bottom: 1rem;
-  margin-left: 10%;
-}
-
 .message-content {
   margin-left: 25px;
   width: auto;
+}
+
+.post-image {
+  width: 350px;
+  padding-bottom: 1rem;
+  display: block;
+  margin: auto;
 }
 
 .message {
@@ -216,6 +268,7 @@ export default {
 
 .heart-icon {
   margin-right: 10px;
+
   :hover {
     color: red;
   }
@@ -225,6 +278,10 @@ export default {
   :hover {
     color: royalblue;
   }
+}
+
+.trash-icon {
+  float: right;
 }
 
 .comments-separation {
@@ -252,5 +309,11 @@ export default {
   width: 25%;
   margin: auto;
   margin-top: 0.5rem;
+}
+
+.flag-a-post {
+  color: lightcoral;
+  float: right;
+  font-size: 12px;
 }
 </style>

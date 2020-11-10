@@ -1,42 +1,45 @@
 <template>
   <div class="container">
-    <h2 class="container-title">Poster un message :</h2>
-    <div class="message-container">
-      <textarea
-        type="text"
-        class="textarea message-input is-primary"
-        placeholder="e.g. Hello world"
-        v-model="message"
-      ></textarea>
-      <input
-        type="file"
-        id="image"
-        ref="fileInput"
-        @input="pickFile"
-        accept="image/*"
-        class="form-input"
-        v-if="seen"
-      />
+      <h2 class="container-title">Poster un message :</h2>
+      <div class="message-container">
+        <textarea
+          type="text"
+          class="textarea message-input is-primary"
+          placeholder="e.g. Hello world"
+          v-model="message"
+        ></textarea>
+        <input
+          type="file"
+          id="image"
+          ref="fileInput"
+          @input="pickFile"
+          accept="image/*"
+          class="form-input"
+          v-if="seen"
+        />
 
-      <div
-        v-if="previewImage"
-        class="image-to-display imagePreviewWrapper"
-        :style="{ 'background-image': `url(${previewImage})` }"
-        @click="selectImage"
-      ></div>
-      <div class="action-button">
-        <button
-          v-if="!seen"
-          @click="seen = true"
-          class="button is-info upload-image"
-        >
-          Add a GIF
-        </button>
-        <button class="button send-message is-primary" @click="postAMessage()">
-          Send
-        </button>
+        <div
+          v-if="previewImage"
+          class="image-to-display imagePreviewWrapper"
+          :style="{ 'background-image': `url(${previewImage})` }"
+          @click="selectImage"
+        ></div>
+        <div class="action-button">
+          <button
+            v-if="!seen"
+            @click="seen = true"
+            class="button is-info upload-image"
+          >
+            Add a GIF
+          </button>
+          <button
+            class="button send-message is-primary"
+            @click="postAMessage()"
+          >
+            Send
+          </button>
+        </div>
       </div>
-    </div>
 
     <AllPosts />
   </div>
@@ -121,8 +124,11 @@ body {
 }
 
 .container {
+  display: flex;
+  flex-direction: columns;
   width: 100%;
 }
+
 
 .container-title {
   font-size: 25px;

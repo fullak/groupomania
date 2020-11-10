@@ -7,14 +7,14 @@
           <template v-for="(post, postIndex) in posts" :index="postIndex">
             <li class="posts-liste" :key="postIndex">
               <Post
-                class="post-content"
-                :firstname="post.firstname"
-                :id="post.id"
-                :authorId="post.authorId"
-                :message="post.message"
-                :image="post.image"
-                :profilePicture="post.profile_picture"
-                :date="post.date"
+                  class="post-content"
+                  :id="post.id"
+                  :authorId="post.authorId"
+                  :message="post.message"
+                  :image="post.image"
+                  :profilePicture="post.profile_picture"
+                  :date="post.date"
+                  :firstname="post.firstname"
               />
             </li>
           </template>
@@ -25,30 +25,30 @@
         <form>
           <div class="form-group profile-picture-form">
             <img
-              :src="this.$store.state.userPicture"
-              alt="Preview profile picture"
-              class="profilePicture"
+                :src="this.$store.state.userPicture"
+                alt="Preview profile picture"
+                class="profilePicture"
             />
             <div class="update-profile-picture" v-if="seen">
               <input
-                type="file"
-                id="avatar"
-                ref="file"
-                accept="image/*"
-                class="form-input"
+                  type="file"
+                  id="avatar"
+                  ref="file"
+                  accept="image/*"
+                  class="form-input"
               />
               <button
-                class="button is-danger active"
-                @click.prevent="uploadProfilPicture"
+                  class="button is-danger active"
+                  @click.prevent="uploadProfilPicture"
               >
                 Mettre à jour la photo de profil
               </button>
             </div>
 
             <button
-              class="button is-primary change-button"
-              v-if="!seen"
-              @click="seen = true"
+                class="button is-primary change-button"
+                v-if="!seen"
+                @click="seen = true"
             >
               Changer de photo de profil
             </button>
@@ -62,9 +62,9 @@
           <span>Rang : {{ this.$store.state.userRole }}</span>
         </div>
         <button
-          class="button disconnect-btn is-danger"
-          v-if="loggedIn"
-          @click="logout"
+            class="button disconnect-btn is-danger"
+            v-if="loggedIn"
+            @click="logout"
         >
           Déconnexion
         </button>
@@ -107,7 +107,7 @@ export default {
     uploadProfilPicture() {
       let file = this.$refs.file.files[0];
       let formData = new FormData();
-      console.log('######');
+      console.log("######");
       console.log(file);
 
       formData.append("image", file);
@@ -115,20 +115,20 @@ export default {
       formData.append("currentImage", this.$store.state.userPicture);
 
       axios
-        .put("http://localhost:3000/profile/image", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: `token ${this.$store.state.userToken}`,
-          },
-        })
-        .then((response) => {
-          this.feedbackMessageAvatar = response.data.message;
-          this.$store.dispatch("getOneUser");
-          location.reload();
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+          .put("http://localhost:3000/profile/image", formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+              Authorization: `token ${this.$store.state.userToken}`,
+            },
+          })
+          .then((response) => {
+            this.feedbackMessageAvatar = response.data.message;
+            this.$store.dispatch("getOneUser");
+            location.reload();
+          })
+          .catch((error) => {
+            console.log(error);
+          });
     },
     getAge(birthday) {
       let today = new Date();
@@ -142,52 +142,51 @@ export default {
     },
     getUserPosts() {
       axios
-        .get("http://localhost:3000/posts/" + this.$store.state.userId, {
-          headers: {
-            Authorization: `token ${this.$store.state.userToken}`,
-          },
-        })
-        .then((response) => {
-          if (this.posts.length != response.data.length) {
-            this.posts = response.data;
-            console.log(this.posts);
-            console.log(response.data);
-            console.log(response);
-          } else {
-            return;
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+          .get("http://localhost:3000/posts/" + this.$store.state.userId, {
+            headers: {
+              Authorization: `token ${this.$store.state.userToken}`,
+            },
+          })
+          .then((response) => {
+            if (this.posts.length != response.data.length) {
+              this.posts = response.data;
+              console.log(this.posts);
+              console.log(response.data);
+              console.log(response);
+            } else {
+              return;
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          });
     },
     deleteAPost(post) {
       axios
-        .delete("http://localhost:3000/posts/", post, {
-          headers: {
-            Authorization: `token ${this.$store.state.userToken}`,
-          },
-        })
-        .then((response) => {
-          if (this.myPosts.length != response.data.length) {
-            this.myPosts = response.data;
-            console.log(response.data);
-            console.log("AAAAA");
-            console.log(this.myPosts);
-          } else {
-            return;
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+          .delete("http://localhost:3000/posts/", post, {
+            headers: {
+              Authorization: `token ${this.$store.state.userToken}`,
+            },
+          })
+          .then((response) => {
+            if (this.myPosts.length != response.data.length) {
+              this.myPosts = response.data;
+              console.log(response.data);
+              console.log("AAAAA");
+              console.log(this.myPosts);
+            } else {
+              return;
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          });
     },
   },
 };
 </script>
 
 <style lang="scss">
-
 .profile {
   display: flex;
   flex-direction: column;
@@ -205,15 +204,19 @@ export default {
   margin: 1rem;
 }
 
+.posts-liste {
+  margin: 2rem 0 0 12rem;
+  width: 100%;
+}
+
 .information {
   display: flex;
   flex-direction: column;
   height: 450px;
   width: 300px;
-  position: fixed;
+  position: absolute;
   right: 0;
-  top: 10;
-  margin: 1rem 1rem 0 0;
+  margin: 5rem 5rem 0 0;
 }
 
 .profilePicture {

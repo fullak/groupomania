@@ -20,20 +20,33 @@
         <router-link to="/feed" class="link" v-if="this.$store.state.isLogged"
           >Fil d'actualité</router-link
         >
-        <div class="container-profile">
-          <router-link
-            to="/profile"
-            v-if="this.$store.state.isLogged"
-            class="link"
-          >
-            Profile
-            <img :src="this.$store.state.userPicture" class="userPicture" />
-          </router-link>
-        </div>
-        <button class="button disconnect-button" @click="logout">
-          Deconnexion
-        </button>
 
+        <router-link
+          to="/profile"
+          v-if="this.$store.state.isLogged"
+          class="link"
+        >
+          Profile
+        </router-link>
+
+        <router-link
+          to="/adminBoard"
+          v-if="
+            this.$store.state.isLogged && this.$store.state.userRole == 'admin'
+          "
+          class="link"
+        >
+          adminBoard
+        </router-link>
+
+        <a
+          href="#"
+          class="disconnect-button"
+          @click="logout"
+          v-if="this.$store.state.isLogged"
+          ><i class="fas fa-sign-out-alt"></i>
+          Deconnexion
+        </a>
       </div>
     </nav>
     <router-view />
@@ -56,19 +69,13 @@ export default {
 
 <style lang="scss">
 .navigation {
-  display: flex;
-  flex-direction: row;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 100%;
+  right: 0;
 }
 
 .navbar {
   padding: 7px;
   display: flex;
-  flex-direction: column;
-  width: 200px;
+  flex-direction: row;
 
   a {
     font-weight: bold;
@@ -83,24 +90,14 @@ export default {
 .block-link {
   margin: 5px auto;
   display: flex;
-  flex-direction: column;
-}
-
-.link,
-.user {
-  margin: 5px auto;
-}
-
-.container-profile {
-  width: auto;
-  display: flex;
   flex-direction: row;
+  text-indent: 1rem;
 }
 
 .logo-nav {
   height: 35px;
   width: 35px;
-  margin: 5px auto 10px;
+  margin-left: 1rem;
 }
 
 .userPicture {
@@ -108,9 +105,5 @@ export default {
   border-radius: 30px;
   width: 40px;
   height: 40px;
-}
-
-.disconnect-button {
-  margin: 5rem 0;
 }
 </style>

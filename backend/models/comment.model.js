@@ -1,13 +1,13 @@
 const sql = require('./db');
 
-//constructor
+// ? constructor
 const Comment = function (comment) {
     this.authorId = comment.authorId
     this.message = comment.message
     this.postId = comment.postId
 };
 
-//Create a user
+// ? Create a user
 Comment.create = (newComment, result) => {
     sql.query('INSERT INTO comments SET ?', newComment, (err, res) => {
         if (err) {

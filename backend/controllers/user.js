@@ -4,6 +4,7 @@ const User = require('../models/user.model');
 const sql = require('../models/db');
 const fs = require('fs');
 
+// ! ### User controllers ###
 
 exports.signup = (req, res) => {
     bcrypt.hash(req.body.password, 10)
@@ -57,7 +58,7 @@ exports.login = (req, res) => {
     }
 };
 
-exports.getOneUser = (req, res, next) => {
+exports.getOneUser = (req, res) => {
     sql.query('SELECT * FROM users WHERE id="' + req.params.id + '"', (err, result) => {
         if (err) throw err;
         console.log(result);
@@ -65,21 +66,49 @@ exports.getOneUser = (req, res, next) => {
     })
 };
 
-exports.updateImage = (req, res, next) => {
+// ? update user profile picture
+exports.updateImage = (req, res) => {
 
     let imageToUpload = `${req.protocol}://${req.get('host')}/profile/${req.file.filename}`
     let imageToDelete = req.body.currentImage.split('/profile/')[1];
 
     console.log(imageToDelete);
 
-    if (imageToDelete != "default.png") { // Pas de suppression de fichier si l'utilisateur a encore l'avatar de base
+    if (imageToDelete != "default.png") { // ? Pas de suppression de fichier si l'utilisateur a encore l'avatar de base
         fs.unlink(`images/profile/${imageToDelete}`, () => {
         })
     }
 
     sql.query('UPDATE users SET profile_picture="' + imageToUpload + '" WHERE id="' + req.body.userId + '"', (err, result) => {
         if (err) throw err;
+        console.log(result);
         return res.status(201).json({ message: 'Avatar changé ' })
     })
 
+};
+
+// ! ### Admin Board controllers ###
+
+exports.getAllUsers = (req, res) => {
+    sql.query('SELECT *, DATE_FORMAT(date_of_birth, "%d/%m/%Y") date_of_birth FROM users', (err, result) => {
+        if (err) throw err;
+        console.log(result);
+        return res.status(200).json(result);
+    })
+};
+
+exports.changeRoleToAdmin = (req, res) => {
+    sql.query('UPDATE users SET role = "admin" WHERE id="' + req.params.id + '"', (err, result) => {
+        if (err) throw err;
+        console.log(result);
+        return res.status(200).json(result);
+    })
+};
+
+exports.changeRoleToUser = (req, res) => {
+    sql.query('UPDATE users SET role = "user" WHERE id="' + req.params.id + '"', (err, result) => {
+        if (err) throw err;
+        console.log(result);
+        return res.status(200).json(result);
+    })
 };

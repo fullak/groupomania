@@ -21,7 +21,7 @@ app.use(express.static('./images/'));
 
 app.use(bodyParser.json())
 
-app.use('/user', userRoutes);
+app.use('/user/', userRoutes);
 app.use('/posts/', postsRoutes);
 app.use('/profile/', userRoutes);
 // app.use('/dashBoard/', adminboardRoutes);

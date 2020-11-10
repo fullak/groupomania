@@ -1,6 +1,6 @@
 const sql = require('./db');
 
-//constructor
+// ? constructor
 const Post = function (post) {
     this.authorId = post.authorId
     this.image = post.image
@@ -8,7 +8,7 @@ const Post = function (post) {
     this.isLiked = post.isLiked
 };
 
-//Create a user
+// ? Create a post
 Post.create = (newPost, result) => {
     sql.query('INSERT INTO posts SET ?', newPost, (err, res) => {
         if (err) {

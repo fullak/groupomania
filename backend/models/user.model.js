@@ -1,6 +1,6 @@
 const sql = require('./db');
 
-//constructor
+// ? constructor
 const User = function (user) {
     this.email = user.email
     this.password = user.password
@@ -9,7 +9,7 @@ const User = function (user) {
     this.date_of_birth = user.birthday
 };
 
-//Create a user
+//? Create a user
 User.create = (newUser, result) => {
     sql.query('INSERT INTO users SET ?', newUser, (err, res) => {
         if (err) {
@@ -22,6 +22,7 @@ User.create = (newUser, result) => {
     })
 };
 
+//? Get a user
 User.getOne = (user, result) => {
     sql.query('SELECT password, id FROM users WHERE email="' + user.email + '"', (err, res) => {
         if (err) {

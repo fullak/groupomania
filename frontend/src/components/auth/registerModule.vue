@@ -37,13 +37,13 @@
         />
         <small
             v-if="!$v.password.minLength"
-            id="emailHelp"
+            id="passwordHelp"
             class="form-text has-text-danger"
         >Le mot de passe doit contenir au moins 6 caractères</small
         >
         <small
             v-if="!$v.password.syntaxe && password != ''"
-            id="nomHelp"
+            id="secondPasswordHelp"
             class="form-text has-text-danger"
         >Le mot de passe contient des caractères non autorisés</small
         >
@@ -65,7 +65,7 @@
             !$v.confirmationPassword.sameAsPassword &&
               confirmationPassword != ''
           "
-            id="nomHelp"
+            id="verifyPasswordHelp"
             class="form-text has-text-danger"
         >Ce mot de passe n'est pas identique au précédent
           {{ $v.confirmationPassword.syntaxe }}</small
@@ -85,13 +85,13 @@
         />
         <small
             v-if="!$v.name.minLength"
-            id="emailHelp"
+            id="namelHelp"
             class="form-text has-text-danger"
         >Le nom doit contenir au moins 2 caractères</small
         >
         <small
             v-if="!$v.name.syntaxe && name != ''"
-            id="nomHelp"
+            id="verifyNameHelp"
             class="form-text has-text-danger"
         >Le nom contient des caractères non autorisés</small
         >
@@ -111,7 +111,7 @@
         />
         <small
             v-if="!$v.firstname.minLength"
-            id="emailHelp"
+            id="firstnameHelp"
             class="form-text has-text-danger"
         >Le nom doit contenir au moins 2 caractères</small
         >
@@ -239,7 +239,7 @@ export default {
 
 <style lang="scss">
 .register-block {
-  margin: 4rem auto;
+  margin: 1rem auto;
   width: 500px;
 }
 

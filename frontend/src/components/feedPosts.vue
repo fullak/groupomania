@@ -1,9 +1,9 @@
 <template>
   <div class="posts">
     <h2 class="feed-title">Fil d'actualités :</h2>
-    <ul :class="displayAllPosts()">
+    <ul :class="displayAllPosts()" class="posts">
       <template v-for="(post, postIndex) in posts" :index="postIndex">
-        <li class="posts-liste" :key="postIndex">
+        <li class="display-posts" :key="postIndex">
           <Post
             :firstname="post.firstname"
             :id="post.id"
@@ -76,8 +76,12 @@ export default {
   text-align: left;
 }
 
-.posts-liste {
-  margin: 3rem auto;
-  width: 75%;
+.posts {
+  margin: auto;
+  width: 90%;
+}
+
+.display-posts {
+  margin-top: 2rem;
 }
 </style>
