@@ -3,6 +3,7 @@
     <LoginModal />
     <h2 class="title">Connexion</h2>
 
+    //? Email input
     <div class="field">
       <p class="control has-icons-left has-icons-right">
         <input class="input" type="email" placeholder="Email" v-model="email" />
@@ -13,15 +14,15 @@
       </p>
     </div>
 
+    //? Password input
     <div class="field">
       <p class="control has-icons-left">
         <input class="input" type="password" placeholder="Password" v-model="password" />
-        <span class="icon is-small is-left">
-          <i class="fas fa-lock"></i>
-        </span>
+        <span class="icon is-small is-left"><i class="fas fa-lock"></i></span>
       </p>
     </div>
 
+    //? Button Block
     <div class="control">
       <button class="button is-primary connect-btn" @click="login">
         Se connecter

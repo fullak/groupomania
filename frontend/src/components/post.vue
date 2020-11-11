@@ -1,70 +1,46 @@
 <template>
   <div class="container" :class="displayAllComments(id)">
     <div class="content">
+
       <div class="user-information">
-        <img
-            :src="profilePicture"
-            alt="user profil picture"
-            class="user-profile-picture"
-        />
+        <img :src="profilePicture" alt="user profil picture" class="user-profile-picture"/>
         <span class="user-firstname"> {{ firstname }}</span>
       </div>
+
       <div class="user-message">
         <div class="message-content box">
           <p class="message is-primary">{{ message }}</p>
           <img :src="image" alt="" class="post-image"/>
           <div class="icons-container">
-            <a href="#" @click="likeAPost(id)"
-            ><span>{{ this.likes }} </span
-            ><i class="fas fa-heart heart-icon"></i
-            ></a>
-            <a @click="seen = !seen"
-            ><i class="fas fa-comment-dots comment-icon"></i
-            ><span> {{ this.comments.length }} comments</span></a
-            >
-            <a href="#" class="trash-icon" v-if="(this.$store.state.userId == authorId)" @click="deleteAPost(id)"><i
-                class="fas fa-trash-alt"></i></a>
+            <a href="#" @click="likeAPost(id)"><span>{{ this.likes }} </span><i class="fas fa-heart heart-icon"></i></a>
+            <a @click="seen = !seen"><i class="fas fa-comment-dots comment-icon"></i><span> {{ this.comments.length }} comments</span></a>
+            <a href="#" class="trash-icon" v-if="(this.$store.state.userId == authorId)" @click="deleteAPost(id)"><iclass="fas fa-trash-alt"></iclass=></a>
             <a href="#" class="flag-a-post" @click="flagAPost(id)">Signaler</a>
           </div>
         </div>
 
         <div class="post-a-comment" v-if="seen">
-          <textarea
-              v-if="seen"
-              class="input-comment textarea is-primary"
-              v-model="commentToPost"
-          />
-          <button
-              class="button is-primary send-comment"
-              @click="postAComment()"
-          >
-            send
-          </button>
+          <textarea v-if="seen" class="input-comment textarea is-primary" v-model="commentToPost"/>
+          <button class="button is-primary send-comment" @click="postAComment()">send</button>
         </div>
 
         <div class="comment">
           <ul class="comment-container" v-if="seen">
-            <template
-                v-for="(comment, commentIndex) in comments"
-                :index="commentIndex"
-            >
+            <template v-for="(comment, commentIndex) in comments" :index="commentIndex">
               <li class="comment-liste" :key="commentIndex">
-                <Comment
-                    :firstname="comment.firstname"
-                    :message="comment.message"
-                    :date="comment.date"
-                    :profilePicture="comment.profile_picture"
-                />
+                <Comment :firstname="comment.firstname" :message="comment.message" :date="comment.date" :profilePicture="comment.profile_picture" />
                 <div class="comments-separation"></div>
               </li>
             </template>
           </ul>
         </div>
+
         <div class="informations">
           <span class="date-of-post"> {{ date }}
             <span v-if="this.$store.state.userRole == 'admin'">postId: {{ id }}</span>
           </span>
         </div>
+        
       </div>
     </div>
   </div>

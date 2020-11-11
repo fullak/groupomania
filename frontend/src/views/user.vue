@@ -2,55 +2,31 @@
   <div class="profile">
     <div class="main-profile">
       <div class="userPost-container">
+
         <h2 class="lastPostsTitle">My last posts :</h2>
+
         <ul :class="getUserPosts()" class="post-container">
           <template v-for="(post, postIndex) in posts" :index="postIndex">
             <li class="posts-liste" :key="postIndex">
-              <Post
-                  class="post-content"
-                  :id="post.id"
-                  :authorId="post.authorId"
-                  :message="post.message"
-                  :image="post.image"
-                  :profilePicture="post.profile_picture"
-                  :date="post.date"
-                  :firstname="post.firstname"
-              />
+              <Post class="post-content" :id="post.id" :authorId="post.authorId" :message="post.message" :image="post.image" :profilePicture="post.profile_picture" :date="post.date" :firstname="post.firstname" />
             </li>
           </template>
         </ul>
+
       </div>
 
       <div class="information box">
+
         <form>
           <div class="form-group profile-picture-form">
-            <img
-                :src="this.$store.state.userPicture"
-                alt="Preview profile picture"
-                class="profilePicture"
-            />
+            <img :src="this.$store.state.userPicture" alt="Preview profile picture" class="profilePicture" />
             <div class="update-profile-picture" v-if="seen">
-              <input
-                  type="file"
-                  id="avatar"
-                  ref="file"
-                  accept="image/*"
-                  class="form-input"
-              />
-              <button
-                  class="button is-danger active"
-                  @click.prevent="uploadProfilPicture"
-              >
-                Mettre à jour la photo de profil
+              <input type="file" id="avatar" ref="file" accept="image/*" class="form-input" />
+              <button class="button is-danger active" @click.prevent="uploadProfilPicture" > Mettre à jour la photo de profil
               </button>
             </div>
 
-            <button
-                class="button is-primary change-button"
-                v-if="!seen"
-                @click="seen = true"
-            >
-              Changer de photo de profil
+            <button class="button is-primary change-button" v-if="!seen" @click="seen = true" > Changer de photo de profil
             </button>
           </div>
         </form>
@@ -61,13 +37,8 @@
           <span>Age: {{ getAge(birthday) }} ans</span>
           <span>Rang : {{ this.$store.state.userRole }}</span>
         </div>
-        <button
-            class="button disconnect-btn is-danger"
-            v-if="loggedIn"
-            @click="logout"
-        >
-          Déconnexion
-        </button>
+
+        <button class="button disconnect-btn is-danger" v-if="loggedIn" @click="logout">Déconnexion </button>
       </div>
     </div>
   </div>

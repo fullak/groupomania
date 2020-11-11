@@ -1,0 +1,55 @@
+<template>
+    <div class="all-posts" :class="displayAllPostsByDate()">
+    <table class="table">
+      <tr>
+        <th>&nbsp;</th>
+        <th>postId</th>
+        <th>author</th>
+        <th>message</th>
+        <th>date</th>
+        <th>Signalé</th>
+        <th>Delete post</th>
+      </tr>
+      <tr v-for="(post, postIndex) in posts" :index="postIndex" :key="post.index" class="line">
+        <td>&nbsp;</td>
+        <td>{{ post.id }}</td>
+        <td>{{ post.name }} {{ post.firstname }}</td>
+        <td>{{ post.message }}</td>
+        <td>{{ post.date }}</td>
+        <td>{{ post.isFlagged }}</td>
+        <td><a href="#" @click="deleteAPost(post.id)"><i class="fas fa-trash-alt"></i></a></td>
+      </tr>
+    </table>
+  </div>
+</template>
+
+<script>
+import axios from 'axios';
+
+export default {
+    name: 'byDateArray',
+    data() {
+        return {
+            posts: [],
+        }
+    },
+    methods: {
+        displayAllPostsByDate() {
+      axios
+        .get("http://localhost:3000/posts/allPosts/byDate", {
+          headers: {
+            Authorization: `token ${this.$store.state.userToken}`,
+          },
+        })
+        .then((response) => {
+          if (this.posts.length != response.data.length) {
+            this.posts = response.data;
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+    },
+    }
+}
+</script>

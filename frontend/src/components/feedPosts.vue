@@ -4,15 +4,9 @@
     <ul :class="displayAllPosts()" class="posts">
       <template v-for="(post, postIndex) in posts" :index="postIndex">
         <li class="display-posts" :key="postIndex">
-          <Post
-            :firstname="post.firstname"
-            :id="post.id"
-            :authorId="post.authorId"
-            :message="post.message"
-            :image="post.image"
-            :date="post.date"
-            :profilePicture="post.profile_picture"
-          />
+          
+          <Post :firstname="post.firstname" :id="post.id" :authorId="post.authorId" :message="post.message" :image="post.image" :date="post.date" :profilePicture="post.profile_picture"/>
+
         </li>
       </template>
     </ul>

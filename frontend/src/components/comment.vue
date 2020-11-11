@@ -1,15 +1,20 @@
 <template>
   <div class="comment-container">
     <div class="comment-content">
+
       <div class="userInfo">
         <img :src="profilePicture" alt="user profile picture" class="userPP" />
         <span class="user-name">{{ firstname }}</span>
       </div>
+
       <div class="message-content message is-info">
         <span>{{ message }}</span>
       </div>
+
     </div>
+
     <span class="comment-date"> {{ date }}</span>
+    
   </div>
 </template>
 

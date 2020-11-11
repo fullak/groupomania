@@ -1,18 +1,14 @@
 <template>
   <div class="modal" id="loginModal">
     <div class="modal-background"></div>
+
     <div class="modal-content box">
-      <h2 class="signupValidate">
-        Bienvenue {{ this.$store.state.userFirstname }} !
-        <i class="fas fa-user-check green-check"></i>
-      </h2>
+      <h2 class="signupValidate">Bienvenue {{ this.$store.state.userFirstname }} !<i class="fas fa-user-check green-check"></i></h2>
       <span class="signupRedirection">Vous allez être redirigé</span>
     </div>
-    <button
-      class="modal-close is-large"
-      aria-label="close"
-      @click="hideModal"
-    ></button>
+
+    <button class="modal-close is-large" aria-label="close" @click="hideModal"></button>
+    
   </div>
 </template>
 
