@@ -17,7 +17,7 @@
         <td>{{ post.message }}</td>
         <td>{{ post.date }}</td>
         <td>{{ post.isFlagged }}</td>
-        <td><a href="#" @click="deleteAPost(post.id)"><i class="fas fa-trash-alt"></i></a></td>
+        <td><a href="#" @click="deleteAPost(post.id, post.image)"><i class="fas fa-trash-alt"></i></a></td>
       </tr>
     </table>
   </div>
@@ -50,10 +50,10 @@ export default {
           console.log(error);
         })
     },
-    deleteAPost(id) {
-        console.log(id);
+    deleteAPost(id, image) {
+
         axios
-        .delete('http://localhost:3000/dashboard/posts/' + id, {
+        .delete('http://localhost:3000/dashboard/posts/' + id + "/" + image.split('/posts/')[1], {
           headers: {
             Authorization: `token ${this.$store.state.userToken}`,
           },

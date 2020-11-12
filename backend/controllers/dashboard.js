@@ -63,6 +63,12 @@ exports.getAllPostsByDate = (req, res) => {
 
 //? Delete a post and all comments linked
 exports.deleteAPost = (req, res) => {
+    imageToDelete = req.params.currentImage;
+
+    if (imageToDelete != "") { // ? Pas de suppression de fichier si l'utilisateur a encore l'avatar de base
+        fs.unlink(`images/posts/${imageToDelete}`, () => {
+        })
+    }
     sql.query('DELETE comments, posts FROM comments INNER JOIN posts ON comments.postId = posts.id WHERE postId="' + req.params.id + '"', (err, result) => {
         if (err) throw err;
         return res.status(200).json(result);

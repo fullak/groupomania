@@ -15,8 +15,8 @@ router.delete('/users/:id/:currentImage', multer, dashboardCtrl.deleteAUser);
 
 // * On posts array
 router.get('/allPosts/byFlag', dashboardCtrl.getAllPostsByFlag);
-router.get('/allPosts/byDate', dashboardCtrl.getAllPostsByDate);
-router.delete('/posts/:id', dashboardCtrl.deleteAPost);
+router.get('/allPosts/byDate/', dashboardCtrl.getAllPostsByDate);
+router.delete('/posts/:id/:currentImage', dashboardCtrl.deleteAPost);
 
 // * On comments array
 router.get('/allComments', dashboardCtrl.getAllComments);
