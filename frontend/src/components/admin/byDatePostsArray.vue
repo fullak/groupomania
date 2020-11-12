@@ -36,7 +36,7 @@ export default {
     methods: {
         displayAllPostsByDate() {
       axios
-        .get("http://localhost:3000/posts/allPosts/byDate", {
+        .get("http://localhost:3000/dashboard/allPosts/byDate", {
           headers: {
             Authorization: `token ${this.$store.state.userToken}`,
           },
@@ -50,6 +50,22 @@ export default {
           console.log(error);
         })
     },
-    }
+    deleteAPost(id) {
+        console.log(id);
+        axios
+        .delete('http://localhost:3000/dashboard/posts/' + id, {
+          headers: {
+            Authorization: `token ${this.$store.state.userToken}`,
+          },
+        })
+        .then((response) => {
+          this.posts = response.data;
+          return this.posts;
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+      },
+  }
 }
 </script>

@@ -6,6 +6,7 @@ const bdd = require('./models/db');
 
 const userRoutes = require('./routes/user');
 const postsRoutes = require('./routes/posts');
+const dashboardRoutes = require('./routes/dashboard');
 
 // var helmet = require('helmet');
 // app.use(helmet());
@@ -24,6 +25,7 @@ app.use(bodyParser.json())
 app.use('/user/', userRoutes);
 app.use('/posts/', postsRoutes);
 app.use('/profile/', userRoutes);
-// app.use('/dashBoard/', adminboardRoutes);
+app.use('/dashboard/', dashboardRoutes);
+
 
 module.exports = app;

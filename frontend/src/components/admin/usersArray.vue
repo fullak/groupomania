@@ -24,7 +24,7 @@
           <a href="#" @click="changeRoleToAdmin(user.id) && Update()" v-if="user.role === 'user'"><i class="fas fa-user-cog"></i></a>
           <a href="#" @click="changeRoleToUser(user.id) && Update()" v-if="user.role === 'admin'"><i class="fas fa-user-cog"></i></a>
         </td>
-        <td><a href="#"><i class="fas fa-trash-alt"></i></a></td>
+        <td><a href="#" class="trash" @click="deleteAUser(user.id, user.profile_picture)"><i class="fas fa-trash-alt"></i></a></td>
       </tr>
     </table>
   </div>
@@ -43,7 +43,7 @@ export default {
   methods: {
     displayAllUsers() {
       axios
-        .get("http://localhost:3000/user/all", {
+        .get("http://localhost:3000/dashboard/getAllUsers/", {
           headers: {
             Authorization: `token ${this.$store.state.userToken}`,
           },
@@ -61,7 +61,7 @@ export default {
     changeRoleToAdmin(id) {
       console.log(id);
       axios
-        .put("http://localhost:3000/user/changeRoleToAdmin/" + id, {
+        .put("http://localhost:3000/dashboard/changeRoleToAdmin/" + id, {
           headers: {
             Authorization: `token ${this.$store.state.userToken}`,
           },
@@ -77,7 +77,7 @@ export default {
     changeRoleToUser(id) {
       console.log(id);
       axios
-        .put("http://localhost:3000/user/changeRoleToUser/" + id, {
+        .put("http://localhost:3000/dashboard/changeRoleToUser/" + id, {
           headers: {
             Authorization: `token ${this.$store.state.userToken}`,
           },
@@ -89,6 +89,23 @@ export default {
         .catch((error) => {
           console.log(error);
         })
+    },
+    deleteAUser(id, profile_picture) {
+
+      axios
+      .delete('http://localhost:3000/dashboard/users/' + id + "/" + profile_picture.split('/profile/')[1], {
+        headers: {
+          Authorization: `token ${this.$store.state.userToken}`,
+        },
+      })
+      .then((response) => {
+        this.users = response.data;
+        console.log(this.users.profile_picture);
+        return this.users;
+      })
+      .catch((error) => {
+        console.log(error);
+      })
     },
   },
 };

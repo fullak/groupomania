@@ -86,29 +86,3 @@ exports.updateImage = (req, res) => {
     })
 
 };
-
-// ! ### Admin Board controllers ###
-
-exports.getAllUsers = (req, res) => {
-    sql.query('SELECT *, DATE_FORMAT(date_of_birth, "%d/%m/%Y") date_of_birth FROM users', (err, result) => {
-        if (err) throw err;
-        console.log(result);
-        return res.status(200).json(result);
-    })
-};
-
-exports.changeRoleToAdmin = (req, res) => {
-    sql.query('UPDATE users SET role = "admin" WHERE id="' + req.params.id + '"', (err, result) => {
-        if (err) throw err;
-        console.log(result);
-        return res.status(200).json(result);
-    })
-};
-
-exports.changeRoleToUser = (req, res) => {
-    sql.query('UPDATE users SET role = "user" WHERE id="' + req.params.id + '"', (err, result) => {
-        if (err) throw err;
-        console.log(result);
-        return res.status(200).json(result);
-    })
-};

@@ -6,7 +6,7 @@
     <div class="alert has-text-danger" v-if="errorMessage != ''">{{ errorMessage }}
     </div>
 
-    //? Email Input
+    <!-- Email Input -->
     <div class="field" :class="{ invalid: $v.email.$error }">
       <label class="label">Email</label>
       <div class="control">
@@ -15,7 +15,7 @@
       </div>
     </div>
 
-    //? Password Input
+    <!-- Password Input -->
     <div class="field" :class="{ invalid: $v.password.$error }">
       <label class="label">Mot de passe</label>
       <div class="control">
@@ -25,7 +25,7 @@
       </div>
     </div>
 
-    //? Confirmation Password input
+    <!-- Confirmation Password input -->
     <div class="field" :class="{ invalid: $v.confirmationPassword.$error }">
       <label class="label">Confirmer votre mot de passe</label>
       <div class="control">
@@ -34,7 +34,7 @@
       </div>
     </div>
 
-    //? Name input
+    <!-- Name input -->
     <div class="field" :class="{ invalid: $v.name.$error }">
       <label class="label">Nom</label>
       <div class="control">
@@ -44,7 +44,7 @@
       </div>
     </div>
 
-    //? Firstname input
+    <!-- Firstname input -->
     <div class="field" :class="{ invalid: $v.firstname.$error }">
       <label class="label">Prénom</label>
       <div class="control">
@@ -53,7 +53,7 @@
         <small v-if="!$v.firstname.syntaxe && firstname != ''" id="nomHelp" class="form-text has-text-danger">Le nom contient des caractères non autorisés</small>
       </div>
 
-      //? Date of birth Input
+      <!-- Date of birth Input -->
       <div class="field">
         <label class="label birthday">Date de naissance</label>
         <div class="control">
@@ -61,7 +61,7 @@
         </div>
       </div>
 
-      //? Button Block
+      <!-- Button Block -->
       <div class="control">
         <button class="button is-primary" @click.prevent="signUp">S'inscrire</button>
         <button class="button is-secondary back-home" @click="$router.push('/')">Revenir à l'accueil</button>

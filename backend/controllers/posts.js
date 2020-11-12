@@ -46,7 +46,7 @@ exports.deleteAPost = (req, res) => {
         if (err) throw err;
         return res.status(200).json(result);
     })
-}
+};
 
 // ? Like a post
 // todo: fonction a modifier
@@ -94,28 +94,3 @@ exports.getPostComments = (req, res) => {
     })
 };
 
-//! ### Admin Board controllers ###
-
-// ? get all posts from the database sort by flag
-exports.getAllPostsByFlag = (req, res) => {
-    sql.query('SELECT posts.id, message, users.profile_picture, posts.image, users.firstname, users.name, posts.isFlagged, DATE_FORMAT(date, "%d/%m/%Y à %T") date FROM posts INNER JOIN users ON posts.authorId = users.id WHERE posts.isFlagged >= "1" ORDER BY posts.isFlagged DESC', (err, result) => {
-        if (err) throw err;
-        return res.status(200).json(result);
-    })
-};
-
-// ? get all posts from the database sort by date
-exports.getAllPostsByDate = (req, res) => {
-    sql.query('SELECT posts.id, message, users.profile_picture, posts.image, users.firstname, users.name, posts.isFlagged, DATE_FORMAT(date, "%d/%m/%Y à %T") date FROM posts INNER JOIN users ON posts.authorId = users.id ORDER BY posts.date DESC', (err, result) => {
-        if (err) throw err;
-        return res.status(200).json(result);
-    })
-};
-
-//? Get all comments
-exports.getAllComments = (req, res) => {
-    sql.query('SELECT *, DATE_FORMAT(date, "le %d/%m/%Y à %T") date FROM comments', (err, result) => {
-        if (err) throw err;
-        return res.status(200).json(result);
-    })
-};

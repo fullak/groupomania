@@ -22,8 +22,7 @@
             <img :src="this.$store.state.userPicture" alt="Preview profile picture" class="profilePicture" />
             <div class="update-profile-picture" v-if="seen">
               <input type="file" id="avatar" ref="file" accept="image/*" class="form-input" />
-              <button class="button is-danger active" @click.prevent="uploadProfilPicture" > Mettre à jour la photo de profil
-              </button>
+              <button class="button is-danger active" @click.prevent="uploadProfilPicture()" > Mettre à jour la photo de profil</button>
             </div>
 
             <button class="button is-primary change-button" v-if="!seen" @click="seen = true" > Changer de photo de profil
@@ -78,8 +77,6 @@ export default {
     uploadProfilPicture() {
       let file = this.$refs.file.files[0];
       let formData = new FormData();
-      console.log("######");
-      console.log(file);
 
       formData.append("image", file);
       formData.append("userId", this.$store.state.userId);

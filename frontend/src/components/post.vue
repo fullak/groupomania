@@ -14,7 +14,7 @@
           <div class="icons-container">
             <a href="#" @click="likeAPost(id)"><span>{{ this.likes }} </span><i class="fas fa-heart heart-icon"></i></a>
             <a @click="seen = !seen"><i class="fas fa-comment-dots comment-icon"></i><span> {{ this.comments.length }} comments</span></a>
-            <a href="#" class="trash-icon" v-if="(this.$store.state.userId == authorId)" @click="deleteAPost(id)"><iclass="fas fa-trash-alt"></iclass=></a>
+            <a href="#" class="trash-icon" v-if="(this.$store.state.userId == authorId)" @click="deleteAPost(id)"><i class="fas fa-trash-alt"></i></a>
             <a href="#" class="flag-a-post" @click="flagAPost(id)">Signaler</a>
           </div>
         </div>

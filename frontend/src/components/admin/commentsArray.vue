@@ -16,7 +16,7 @@
         <td>{{ comment.message }}</td>
         <td>{{ comment.date }}</td>
         <td>{{ comment.postId }}</td>
-        <td><a href="#"><i class="fas fa-trash-alt"></i></a></td>
+        <td><a href="#" @click="deleteAComment(comment.id)"><i class="fas fa-trash-alt"></i></a></td>
       </tr>
     </table>
   </div>
@@ -35,7 +35,7 @@ export default {
   methods: {
     displayAllComments() {
       axios
-        .get("http://localhost:3000/posts/comments/all/", {
+        .get("http://localhost:3000/dashboard/allComments/", {
           headers: {
             Authorization: `token ${this.$store.state.userToken}`,
           },
@@ -48,6 +48,21 @@ export default {
         .catch((error) => {
           console.log(error);
         });
+    },
+    deleteAComment(id) {
+      axios
+      .delete("http://localhost:3000/dashboard/comments/" + id, {
+        headers: {
+          Authorization: `token${this.$store.state.userToken}`,
+        },
+      })
+      .then((response) => {
+        this.comments = response.data;
+        return this.comments;
+      })
+      .catch((error) => {
+        console.log(error);
+      })
     },
   },
 };
