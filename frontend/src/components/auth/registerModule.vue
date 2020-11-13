@@ -1,7 +1,7 @@
 <template>
   <div class="register box register-block">
     <RegisterModal/>
-    <h2 class="title">Inscription</h2>
+    <h2 class="box-title">Inscription</h2>
 
     <div class="alert has-text-danger" v-if="errorMessage != ''">{{ errorMessage }}
     </div>
@@ -167,7 +167,7 @@ export default {
   width: 500px;
 }
 
-.title {
+.box-title {
   font-size: 30px;
 }
 

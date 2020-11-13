@@ -1,7 +1,9 @@
 <template>
   <div class="container">
 
-    <h2 class="title">Admin Board</h2>
+    <div class="title box">
+        <h2 class="board-title">Dashboard</h2>
+    </div>
 
     <div class="btn-line">
       <button class="button is-primary moderate-users-btn" @click="showUsers = !showUsers">Moderate Users</button>
@@ -53,8 +55,20 @@ export default {
 
 <style>
 .title {
-  font-size: 30px;
-  margin-top: 2rem;
+  width: 250px;
+  margin: -1rem auto;
+  border-bottom-right-radius: 50%;
+  border-bottom-left-radius: 50%;
+  background-color: #012A42;
+  -webkit-box-shadow: 1px 5px 4px 0px rgba(0,0,0,0.35); 
+  box-shadow: 1px 5px 4px 0px rgba(0,0,0,0.35);
+}
+
+.board-title {
+  font-size: 25px;
+  font-weight: bold;
+  color: aliceblue;
+  margin: 0.25rem;
 }
 
 .table {

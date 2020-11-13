@@ -1,19 +1,9 @@
 <template>
   <div class="profile">
+    <div class="title box">
+        <h2 class="lastPostsTitle">Profile</h2>
+        </div>
     <div class="main-profile">
-      <div class="userPost-container">
-
-        <h2 class="lastPostsTitle">My last posts :</h2>
-
-        <ul :class="getUserPosts()" class="post-container">
-          <template v-for="(post, postIndex) in posts" :index="postIndex">
-            <li class="posts-liste" :key="postIndex">
-              <Post class="post-content" :id="post.id" :authorId="post.authorId" :message="post.message" :image="post.image" :profilePicture="post.profile_picture" :date="post.date" :firstname="post.firstname" />
-            </li>
-          </template>
-        </ul>
-
-      </div>
 
       <div class="information box">
 
@@ -39,6 +29,19 @@
 
         <button class="button disconnect-btn is-danger" v-if="loggedIn" @click="logout">Déconnexion </button>
       </div>
+
+      <div class="userPost-container">
+
+        <ul :class="getUserPosts()" class="post-container">
+          <template v-for="(post, postIndex) in posts" :index="postIndex">
+            <li class="posts-liste" :key="postIndex">
+              <Post class="post-content" :id="post.id" :authorId="post.authorId" :message="post.message" :image="post.image" :profilePicture="post.profile_picture" :date="post.date" :firstname="post.firstname" />
+            </li>
+          </template>
+        </ul>
+
+      </div>
+
     </div>
   </div>
 </template>
@@ -158,49 +161,69 @@ export default {
 .profile {
   display: flex;
   flex-direction: column;
-  width: 100%;
 }
 
-.main-profile {
-  display: flex;
-  flex-direction: row;
+.title {
+  width: 250px;
+  margin: -1rem auto;
+  border-bottom-right-radius: 50%;
+  border-bottom-left-radius: 50%;
+  background-color: #012A42;
+  -webkit-box-shadow: 1px 5px 4px 0px rgba(0,0,0,0.35); 
+  box-shadow: 1px 5px 4px 0px rgba(0,0,0,0.35);
 }
 
 .lastPostsTitle {
   font-size: 25px;
   font-weight: bold;
-  margin: 1rem;
+  color: aliceblue;
+  margin: 0.25rem;
+}
+
+.main-profile {
+  display: flex;
+  flex-direction: row;
+  width: 1200px;
+  height: auto;
+  margin: 2rem auto;
+  justify-content: space-between;
+}
+
+.userPost-container {
+  width: 750px;
 }
 
 .posts-liste {
-  margin: 2rem 0 0 12rem;
-  width: 100%;
+  margin: 0 0 2rem;
 }
 
 .information {
   display: flex;
   flex-direction: column;
-  height: 450px;
-  width: 300px;
-  position: absolute;
-  right: 0;
-  margin: 5rem 5rem 0 0;
+  height: 475px;
+  border-top-left-radius: 25%;
+  border-top-right-radius: 6%;
+  border-bottom-right-radius: 25%;
+  border-bottom-left-radius: 6%;
+  -webkit-box-shadow: 1px 5px 4px 0px rgba(0,0,0,0.35); 
+  box-shadow: 1px 5px 4px 0px rgba(0,0,0,0.35);
 }
 
 .profilePicture {
   width: 150px;
   height: 150px;
   border-radius: 50%;
-  margin-bottom: 1rem;
-}
-
-.is-danger,
-.change-button {
-  margin: 1rem auto 1rem;
+  margin: 1rem 0;
 }
 
 .userInformation {
   display: flex;
   flex-direction: column;
+  margin-top: 1rem;
+}
+
+.disconnect-btn  {
+  width: 50%;
+  margin: 1rem auto 0; 
 }
 </style>

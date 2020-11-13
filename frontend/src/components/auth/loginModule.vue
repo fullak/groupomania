@@ -1,7 +1,9 @@
 <template>
   <div class="Login box">
+
+      
     <LoginModal />
-    <h2 class="title">Connexion</h2>
+    <h2 class="box-title">Connexion</h2>
 
     <!-- Email input -->
     <div class="field">

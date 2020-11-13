@@ -27,7 +27,7 @@ exports.changeRoleToUser = (req, res) => {
     })
 };
 
-//? delete a user and profile picture link
+// * delete a user and profile picture link
 exports.deleteAUser = (req, res) => {
 
     imageToDelete = req.params.currentImage;
@@ -61,7 +61,7 @@ exports.getAllPostsByDate = (req, res) => {
     })
 };
 
-//? Delete a post and all comments linked
+// * Delete a post and all comments linked
 exports.deleteAPost = (req, res) => {
     imageToDelete = req.params.currentImage;
 

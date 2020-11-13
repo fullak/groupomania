@@ -1,8 +1,8 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/images/logo.png" class="logo">
-    <LoginModule class="login-module"/>
-  </div>
+    <div class="home-container">
+      <img alt="Vue logo" src="../assets/images/logo.png" class="logo">
+      <LoginModule class="login-module"/>
+    </div>
 </template>
 
 <script>
@@ -18,7 +18,8 @@ export default {
 </script>
 
 <style lang="scss">
-.home {
+
+.home-container {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -32,7 +33,7 @@ export default {
 
 @media screen and (max-width: 768px)
 {
-  .home {
+  .home-container {
     display: flex;
     flex-direction: column;
     margin-top: -3rem;
