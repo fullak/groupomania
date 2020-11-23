@@ -15,11 +15,14 @@ router.delete('/users/:id/:currentImage', multer, dashboardCtrl.deleteAUser);
 
 // * On posts array
 router.get('/allPosts/byFlag', dashboardCtrl.getAllPostsByFlag);
-router.get('/allPosts/byDate/', dashboardCtrl.getAllPostsByDate);
+router.get('/allPosts/byDate', dashboardCtrl.getAllPostsByDate);
+router.get('/allPosts/byAuthor/:id', dashboardCtrl.getAllPostsByAuthor);
 router.delete('/posts/:id/:currentImage', dashboardCtrl.deleteAPost);
 
 // * On comments array
 router.get('/allComments', dashboardCtrl.getAllComments);
+router.get('/allComments/byAuthor/:id', dashboardCtrl.getAllCommentsByAuthor);
+router.get('/allComments/byPost/:id', dashboardCtrl.getAllCommentsByPost);
 router.delete('/comments/:id', dashboardCtrl.deleteAComment);
 
 module.exports = router;

@@ -49,12 +49,41 @@ exports.deleteAPost = (req, res) => {
 };
 
 // ? Like a post
-// todo: fonction a modifier
+
 exports.likeAPost = (req, res) => {
-    sql.query('UPDATE posts SET isLiked = isLiked+1 WHERE id="' + req.params.id + '"', (err, result) => {
+    console.log(req.body);
+    Post.findOne({ id: req.params.id })
+    .then(post => {
+        const userId = req.body.userId;
+        const userWantsToLike = (req.body.like === 1);
+        const userWantsToDislike = (req.body.like === -1);
+        const userWantsToCancel = (req.body.like === 0);
+        const userCanLike = (!post.usersLiked.includes(userId));
+        const userCanDislike = (!post.usersDisliked.includes(userId));
+        const notTheFirstVote = (post.usersLiked.includes(userId) || post.usersDisliked.includes(userId));
+
+        if (userWantsToLike && userCanLike) {post.usersLiked.push(userId)};
+        if (userWantsToDislike && userCanDislike) {post.usersDisliked.push(userId)};
+
+        if (userWantsToCancel && notTheFirstVote) {
+        if (post.usersLiked.includes(userId)) {
+            let index = post.usersLiked.indexOf(userId);
+            post.usersLiked.splice(index, 1);
+            } else {
+            let index = post.usersDisliked.indexOf(userId);
+            post.usersDisliked.splice(index, 1);
+        }
+    }
+    post.likes = post.usersLiked.length;
+    post.dislikes = post.usersDisliked.length;
+    const updatedPost = post;
+    updatedPost.save();
+    return updatedPost;
+    })
+    .then(sql.query('UPDATE posts SET isLiked = isLiked+1 WHERE id="' + req.params.id + '"', (err, result) => {
         if (err) throw err;
         return res.status(200).json(result);
-    })
+    }))
 };
 
 //? Flagged a post

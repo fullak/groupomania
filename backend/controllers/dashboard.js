@@ -61,7 +61,16 @@ exports.getAllPostsByDate = (req, res) => {
     })
 };
 
+exports.getAllPostsByAuthor = (req, res) => {
+    console.log(req.params.id);
+    sql.query('SELECT posts.id, message, users.profile_picture, posts.image, users.firstname, users.name, posts.isFlagged, DATE_FORMAT(date, "%d/%m/%Y à %T") date FROM posts INNER JOIN users ON posts.authorId = users.id WHERE posts.authorId="' + req.params.id + '"ORDER BY posts.date DESC', (err, result) => {
+        if (err) throw err;
+        return res.status(200).json(result);
+    })
+}
+
 // * Delete a post and all comments linked
+
 exports.deleteAPost = (req, res) => {
     imageToDelete = req.params.currentImage;
 
@@ -69,7 +78,7 @@ exports.deleteAPost = (req, res) => {
         fs.unlink(`images/posts/${imageToDelete}`, () => {
         })
     }
-    sql.query('DELETE comments, posts FROM comments INNER JOIN posts ON comments.postId = posts.id WHERE postId="' + req.params.id + '"', (err, result) => {
+    sql.query('DELETE posts, comments FROM posts INNER JOIN comments ON posts.id = comments.postId WHERE postId="' + req.params.id + '"', (err, result) => {
         if (err) throw err;
         return res.status(200).json(result);
     })
@@ -84,6 +93,22 @@ exports.getAllComments = (req, res) => {
         return res.status(200).json(result);
     })
 };
+
+exports.getAllCommentsByAuthor = (req, res) => {
+    console.log(req.params.id);
+    sql.query('SELECT comments.id, message, users.firstname, users.name, comments.postId, DATE_FORMAT(date, "%d/%m/%Y à %T") date FROM comments INNER JOIN users ON comments.authorId = users.id WHERE comments.authorId="' + req.params.id + '"ORDER BY comments.date DESC', (err, result) => {
+        if (err) throw err;
+        return res.status(200).json(result);
+    })
+}
+
+exports.getAllCommentsByPost = (req, res) => {
+    console.log(req.params.id);
+    sql.query('SELECT comments.id, message, users.firstname, users.name, comments.postId, DATE_FORMAT(date, "%d/%m/%Y à %T") date FROM comments INNER JOIN users ON comments.authorId = users.id WHERE comments.postId="' + req.params.id + '"ORDER BY comments.date DESC', (err, result) => {
+        if (err) throw err;
+        return res.status(200).json(result);
+    })
+}
 
 exports.deleteAComment = (req, res) => {
     console.log(req.params.id);

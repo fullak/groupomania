@@ -12,8 +12,15 @@
     </div>
 
     <div v-if="showPostsBtn">
-      <button class="button is-danger sort-btn" @click="showFlaggedPosts = !showFlaggedPosts" v-if="!showByDatePosts">Flagged Posts</button>
-      <button class="button is-danger sort-btn" @click="showByDatePosts = !showByDatePosts" v-if="!showFlaggedPosts">Sort By Date Posts</button>
+      <button class="button is-danger sort-btn" @click="showFlaggedPosts = !showFlaggedPosts" v-if="!showByDatePosts && !showByAuthorPosts">Flagged Posts</button>
+      <button class="button is-danger sort-btn" @click="showByDatePosts = !showByDatePosts" v-if="!showFlaggedPosts && !showByAuthorPosts">Sort By Date Posts</button>
+      <button class="button is-danger sort-btn" @click="showByAuthorPosts = !showByAuthorPosts" v-if="!showByDatePosts && !showFlaggedPosts">Find Posts for one user</button>
+    </div>
+
+    <div v-if="showComments">
+      <button class="button is-danger sort-btn" @click="showAllComments = !showAllComments" v-if="!showCommentsByAuthor && !showCommentsByPost">Show All</button>
+      <button class="button is-danger sort-btn" @click="showCommentsByAuthor = !showCommentsByAuthor" v-if="!showAllComments && !showCommentsByPost">By Author</button>
+      <button class="button is-danger sort-btn" @click="showCommentsByPost = !showCommentsByPost" v-if="!showAllComments && !showCommentsByAuthor">By Post</button>
     </div>
 
     <UsersArray v-if="showUsers" />
@@ -22,7 +29,13 @@
 
     <ByDatePosts v-if="showByDatePosts" />
 
-    <CommentsArray v-if="showComments" />
+    <AuthorArray v-if="showByAuthorPosts" />
+
+    <CommentsArray v-if="showAllComments" />
+
+    <CommentsAuthorArray v-if="showCommentsByAuthor" />
+
+    <CommentsByPostArray v-if="showCommentsByPost" />
     
   </div>
 </template>
@@ -32,6 +45,9 @@ import UsersArray from '../components/admin/usersArray';
 import FlaggedPosts from '../components/admin/flaggedPostsArray';
 import ByDatePosts from '../components/admin/byDatePostsArray';
 import CommentsArray from '../components/admin/commentsArray';
+import AuthorArray from '../components/admin/byAuthorPostsArray';
+import CommentsAuthorArray from '../components/admin/byAuthorCommentsArray';
+import CommentsByPostArray from '../components/admin/byPostCommentsArray';
 
 export default {
   name: 'adminBoard',
@@ -40,14 +56,22 @@ export default {
     FlaggedPosts,
     ByDatePosts,
     CommentsArray,
+    AuthorArray,
+    CommentsAuthorArray,
+    CommentsByPostArray,
   },
   data() {
     return {
       showUsers: false,
       showFlaggedPosts: false,
       showByDatePosts: false,
+      showByAuthorPosts: false,
       showComments: false,
+      showAllComments: false,
+      showCommentsByAuthor: false,
+      showCommentsByPost: false,
       showPostsBtn: false,
+      showCommentsBtn: false,
     }
   },
 };

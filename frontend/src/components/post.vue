@@ -9,13 +9,13 @@
 
       <div class="user-message">
         <div class="message-content box">
+          <a href="#" class="flag-a-post" @click="flagAPost(id)">Signaler</a>
           <p class="message is-primary">{{ message }}</p>
           <img :src="image" alt="" class="post-image"/>
           <div class="icons-container">
             <a href="#" @click="likeAPost(id)"><span>{{ this.likes }} </span><i class="fas fa-heart heart-icon"></i></a>
             <a @click="seen = !seen"><i class="fas fa-comment-dots comment-icon"></i><span> {{ this.comments.length }} comments</span></a>
             <a href="#" class="trash-icon" v-if="(this.$store.state.userId == authorId)" @click="deleteAPost(id)"><i class="fas fa-trash-alt"></i></a>
-            <a href="#" class="flag-a-post" @click="flagAPost(id)">Signaler</a>
           </div>
         </div>
 
@@ -124,9 +124,12 @@ export default {
           });
     },
     likeAPost(id) {
-      console.log(id);
+      let data = {
+        userId: this.$store.state.userId,
+        like: this.likes +1,
+      }
       axios
-          .put("http://localhost:3000/posts/" + id + "/isLiked/", {
+          .put("http://localhost:3000/posts/" + id + "/isLiked/", data, {
             headers: {
               Authorization: `token ${this.$store.state.userToken}`,
             },

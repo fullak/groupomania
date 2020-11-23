@@ -1,7 +1,6 @@
 <template>
   <div class="Login box">
 
-      
     <LoginModal />
     <h2 class="box-title">Connexion</h2>
 
@@ -97,6 +96,11 @@ export default {
 <style lang="scss">
 .box {
   width: 350px;
+}
+
+.box-title {
+  font-size: 30px;
+  margin: 0.5rem 0 2rem;
 }
 
 .control {
