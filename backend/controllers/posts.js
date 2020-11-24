@@ -1,6 +1,7 @@
 const sql = require('../models/db');
 const Post = require('../models/post.model');
 const Comment = require('../models/comment.model');
+const Reaction = require('../models/reaction.model');
 
 // ! ### Posts controllers ###
 
@@ -21,6 +22,16 @@ exports.addPost = (req, res) => {
             return;
         }
         res.send(data);
+    })
+};
+
+//? Get likes per posts
+exports.getLikesPerPosts = (req, res) => {
+    console.log('#########');
+    console.log(req.params.id);
+    sql.query('SELECT * FROM reactions WHERE postId="' + req.params.id + '"', (err, result) => {
+        if (err) throw err;
+        return res.status(200).json(result);
     })
 };
 
@@ -49,41 +60,24 @@ exports.deleteAPost = (req, res) => {
 };
 
 // ? Like a post
-
 exports.likeAPost = (req, res) => {
+
     console.log(req.body);
-    Post.findOne({ id: req.params.id })
-    .then(post => {
-        const userId = req.body.userId;
-        const userWantsToLike = (req.body.like === 1);
-        const userWantsToDislike = (req.body.like === -1);
-        const userWantsToCancel = (req.body.like === 0);
-        const userCanLike = (!post.usersLiked.includes(userId));
-        const userCanDislike = (!post.usersDisliked.includes(userId));
-        const notTheFirstVote = (post.usersLiked.includes(userId) || post.usersDisliked.includes(userId));
 
-        if (userWantsToLike && userCanLike) {post.usersLiked.push(userId)};
-        if (userWantsToDislike && userCanDislike) {post.usersDisliked.push(userId)};
+    const reaction = new Reaction({
+        userId: req.body.userId,
+        postId: req.body.postId,
+    });
 
-        if (userWantsToCancel && notTheFirstVote) {
-        if (post.usersLiked.includes(userId)) {
-            let index = post.usersLiked.indexOf(userId);
-            post.usersLiked.splice(index, 1);
-            } else {
-            let index = post.usersDisliked.indexOf(userId);
-            post.usersDisliked.splice(index, 1);
+    Reaction.create(reaction, (err, data) => {
+        if (err) {
+            res.status(500).send({
+                message: err.message || "An error has appeared"
+            });
+            return;
         }
-    }
-    post.likes = post.usersLiked.length;
-    post.dislikes = post.usersDisliked.length;
-    const updatedPost = post;
-    updatedPost.save();
-    return updatedPost;
+        res.send(data);
     })
-    .then(sql.query('UPDATE posts SET isLiked = isLiked+1 WHERE id="' + req.params.id + '"', (err, result) => {
-        if (err) throw err;
-        return res.status(200).json(result);
-    }))
 };
 
 //? Flagged a post
@@ -117,9 +111,16 @@ exports.postAComment = (req, res) => {
 
 // ? get all comments on a post
 exports.getPostComments = (req, res) => {
-    sql.query('SELECT message, users.firstname, users.profile_picture, DATE_FORMAT(date, "le %d/%m/%Y à %T") date FROM comments INNER JOIN users ON comments.authorId = users.id WHERE postId="' + req.params.id + '"', (err, result) => {
+    sql.query('SELECT message, users.firstname, users.profile_picture, comments.id, DATE_FORMAT(date, "le %d/%m/%Y à %T") date FROM comments INNER JOIN users ON comments.authorId = users.id WHERE postId="' + req.params.id + '"', (err, result) => {
         if (err) throw err;
         return res.status(200).json(result);
     })
+};
+
+exports.flaggedAComment = (req, res) => {
+    sql.query('UPDATE comments SET isFlagged = isFlagged+1 WHERE id="' + req.params.id + '"', (err, result) => {
+        if (err) throw err;
+        return res.status(200).json(result);
+    });
 };
 

@@ -38,6 +38,7 @@ export default {
       authorId: "",
       image: "",
       message: "",
+      likes: "",
       previewImage: null,
       feedbackMessagePicture: "",
       seen: false,

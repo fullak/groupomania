@@ -10,15 +10,17 @@ const verifyPassword = require('../middlewares/verifyPasswordStrength');
 
 // * route Posts
 router.post('/', auth, postsMulter, postsCtrl.addPost);
+router.post('/isLiked', postsCtrl.likeAPost);
 router.get('/allPosts', auth, postsCtrl.getAllPosts);
 router.get('/:id', postsCtrl.getUserPosts);
-router.put('/:id/isLiked', postsCtrl.likeAPost);
+router.get('/:id/likes', postsCtrl.getLikesPerPosts);
 router.put('/:id/isFlagged', postsCtrl.flaggedAPost);
 router.delete('/:id', auth, postsCtrl.deleteAPost);
 
-// *  route Comments
+// * route Comments
 router.post('/comments', auth, postsCtrl.postAComment);
-router.get('/comments/:id', auth, postsCtrl.getPostComments); 
+router.get('/comments/:id', auth, postsCtrl.getPostComments);
+router.put('/comments/:id/isFlagged', postsCtrl.flaggedAComment); 
 
 
 

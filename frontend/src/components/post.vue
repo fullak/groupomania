@@ -1,6 +1,6 @@
 <template>
   <div class="container" :class="displayAllComments(id)">
-    <div class="content">
+    <div class="content" :class="getLikesPerPosts(id)">
 
       <div class="user-information">
         <img :src="profilePicture" alt="user profil picture" class="user-profile-picture"/>
@@ -13,7 +13,7 @@
           <p class="message is-primary">{{ message }}</p>
           <img :src="image" alt="" class="post-image"/>
           <div class="icons-container">
-            <a href="#" @click="likeAPost(id)"><span>{{ this.likes }} </span><i class="fas fa-heart heart-icon"></i></a>
+            <a href="#" @click="likeAPost(id)"><span>{{ likes }} </span><i class="fas fa-heart heart-icon"></i></a>
             <a @click="seen = !seen"><i class="fas fa-comment-dots comment-icon"></i><span> {{ this.comments.length }} comments</span></a>
             <a href="#" class="trash-icon" v-if="(this.$store.state.userId == authorId)" @click="deleteAPost(id)"><i class="fas fa-trash-alt"></i></a>
           </div>
@@ -28,7 +28,7 @@
           <ul class="comment-container" v-if="seen">
             <template v-for="(comment, commentIndex) in comments" :index="commentIndex">
               <li class="comment-liste" :key="commentIndex">
-                <Comment :firstname="comment.firstname" :message="comment.message" :date="comment.date" :profilePicture="comment.profile_picture" />
+                <Comment :firstname="comment.firstname" :message="comment.message" :date="comment.date" :profilePicture="comment.profile_picture" :commentId="comment.id"/>
                 <div class="comments-separation"></div>
               </li>
             </template>
@@ -115,8 +115,7 @@ export default {
             },
           })
           .then((response) => {
-            console.log(response);
-            location.reload();
+            return response.data;
           })
           .catch((error) => {
             console.log(this.commentToPost);
@@ -126,32 +125,17 @@ export default {
     likeAPost(id) {
       let data = {
         userId: this.$store.state.userId,
-        like: this.likes +1,
+        postId: id,
       }
       axios
-          .put("http://localhost:3000/posts/" + id + "/isLiked/", data, {
+          .post("http://localhost:3000/posts/isLiked/", data, {
             headers: {
               Authorization: `token ${this.$store.state.userToken}`,
             },
           })
           .then((response) => {
-            console.log(response);
-          })
-          .catch((error) => {
-            console.log(error);
-          })
-    },
-    deleteAPost(id) {
-      console.log(id);
-      axios
-          .delete("http://localhost:3000/posts/" + id, {
-            headers: {
-              Authorization: `token ${this.$store.state.userToken}`,
-            },
-          })
-          .then((response) => {
-            console.log(response);
-            location.reload();
+            this.likes = response.data;
+            return this.likes;
           })
           .catch((error) => {
             console.log(error);
@@ -166,11 +150,40 @@ export default {
             },
           })
           .then((response) => {
-            console.log(response);
+            return response.data;
           })
           .catch((error) => {
             console.log(error);
           })
+    },
+    deleteAPost(id) {
+      axios
+          .delete("http://localhost:3000/posts/" + id, {
+            headers: {
+              Authorization: `token ${this.$store.state.userToken}`,
+            },
+          })
+          .then((response) => {
+            return response.data;
+          })
+          .catch((error) => {
+            console.log(error);
+          })
+    },
+    getLikesPerPosts(id) {
+      axios
+      .get('http://localhost:3000/posts/' + id + '/likes/', {
+        headers: {
+          Authorization: `token ${this.$store.state.userToken}`,
+        },
+      })
+      .then((response) => {
+        this.likes = response.data.length;
+        return this.likes;
+      })
+      .catch((error) => {
+        console.log(error);
+      })
     },
   },
 };

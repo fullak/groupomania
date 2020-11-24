@@ -11,15 +11,17 @@
         <span>{{ message }}</span>
       </div>
 
+        <a href="#" class="flag-a-comment" @click="flagAComment(commentId)">Signaler</a>
+
     </div>
 
-    <span class="comment-date"> {{ date }}</span>
+    <span class="comment-date"> {{ date }} commentId: {{ commentId }}</span>
     
   </div>
 </template>
 
 <script>
-// import axios from "axios";
+import axios from "axios";
 export default {
   name: "comment",
   data() {
@@ -27,8 +29,24 @@ export default {
       comments: [],
     };
   },
-  methods: {},
-  props: ["firstname", "message", "date", "profilePicture"],
+  methods: {
+    flagAComment(id) {
+      console.log(id);
+      axios
+          .put('http://localhost:3000/posts/comments/' + id + '/isFlagged/', {
+            headers: {
+              Authorization: `token ${this.$store.state.userToken}`,
+            },
+          })
+          .then((response) => {
+            return response.data;
+          })
+          .catch((error) => {
+            console.log(error);
+          })
+    },
+  },
+  props: ["firstname", "message", "date", "profilePicture", "commentId"],
 };
 </script>
 
@@ -62,5 +80,11 @@ export default {
 .comment-date {
     font-size: 10px;
     text-align: right;
+}
+
+.flag-a-comment {
+  color: lightcoral;
+  float: right;
+  font-size: 12px;
 }
 </style>

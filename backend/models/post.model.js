@@ -5,7 +5,6 @@ const Post = function (post) {
     this.authorId = post.authorId
     this.image = post.image
     this.message = post.message
-    this.isLiked = post.isLiked
 };
 
 // ? Create a post

@@ -5,7 +5,7 @@
       <template v-for="(post, postIndex) in posts" :index="postIndex">
         <li class="display-posts" :key="postIndex">
           
-          <Post :firstname="post.firstname" :id="post.id" :authorId="post.authorId" :message="post.message" :image="post.image" :date="post.date" :profilePicture="post.profile_picture"/>
+          <Post :firstname="post.firstname" :id="post.id" :authorId="post.authorId" :message="post.message" :image="post.image" :date="post.date" :profilePicture="post.profile_picture" />
 
         </li>
       </template>
@@ -26,6 +26,7 @@ export default {
     return {
       currentLogged: localStorage.getItem("userId"),
       posts: [],
+      likes: '',
     };
   },
   computed: {
@@ -59,8 +60,8 @@ export default {
           console.log(error);
         });
     },
-  },
-};
+  }
+}
 </script>
 
 <style lang="scss">
