@@ -1,5 +1,5 @@
 <template>
-    <div class="all-posts" :class="displayAllPostsByDate()">
+  <div class="all-posts" :class="displayAllPostsByDate()">
     <table class="table">
       <tr>
         <th>&nbsp;</th>
@@ -7,7 +7,7 @@
         <th>author</th>
         <th>message</th>
         <th>date</th>
-        <th>Signalé</th>
+        <th>Flagged</th>
         <th>Delete post</th>
       </tr>
       <tr v-for="(post, postIndex) in posts" :index="postIndex" :key="post.index" class="line">
@@ -27,45 +27,38 @@
 import axios from 'axios';
 
 export default {
-    name: 'byDateArray',
-    data() {
-        return {
-            posts: [],
+  name: 'byDateArray',
+  data() {
+    return {
+      posts: [],
+    }
+  },
+  methods: {
+    displayAllPostsByDate() {
+      axios.get("http://localhost:3000/dashboard/allPosts/byDate", {
+        headers: {
+          Authorization: `token ${this.$store.state.userToken}`,
+        },
+      }).then((response) => {
+        if (this.posts.length != response.data.length) {
+          this.posts = response.data;
         }
-    },
-    methods: {
-        displayAllPostsByDate() {
-      axios
-        .get("http://localhost:3000/dashboard/allPosts/byDate", {
-          headers: {
-            Authorization: `token ${this.$store.state.userToken}`,
-          },
-        })
-        .then((response) => {
-          if (this.posts.length != response.data.length) {
-            this.posts = response.data;
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        })
+      }).catch((error) => {
+        console.log(error);
+      })
     },
     deleteAPost(id, image) {
-
-        axios
-        .delete('http://localhost:3000/dashboard/posts/' + id + "/" + image.split('/posts/')[1], {
-          headers: {
-            Authorization: `token ${this.$store.state.userToken}`,
-          },
-        })
-        .then((response) => {
-          this.posts = response.data;
-          return this.posts;
-        })
-        .catch((error) => {
-          console.log(error);
-        })
-      },
+      axios.delete('http://localhost:3000/dashboard/posts/' + id + "/" + image.split('/posts/')[1], {
+        headers: {
+          Authorization: `token ${this.$store.state.userToken}`,
+        },
+      }).then((response) => {
+        this.posts = response.data;
+        return this.posts;
+      }).catch((error) => {
+        console.log(error);
+      })
+    },
   }
 }
 </script>

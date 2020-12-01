@@ -11,7 +11,7 @@
         <span>{{ message }}</span>
       </div>
 
-        <a href="#" class="flag-a-comment" @click="flagAComment(commentId)">Signaler</a>
+      <a href="#" class="flag-a-comment" @click="flagAComment(commentId)">Signaler</a>
 
     </div>
 
@@ -78,8 +78,8 @@ export default {
 }
 
 .comment-date {
-    font-size: 10px;
-    text-align: right;
+  font-size: 10px;
+  text-align: right;
 }
 
 .flag-a-comment {

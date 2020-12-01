@@ -20,7 +20,9 @@
         </div>
 
         <div class="post-a-comment" v-if="seen">
-          <textarea v-if="seen" class="input-comment textarea is-primary" v-model="commentToPost"/>
+          <label>
+            <textarea v-if="seen" class="input-comment textarea is-primary" v-model="commentToPost"/>
+          </label>
           <button class="button is-primary send-comment" @click="postAComment()">send</button>
         </div>
 
@@ -84,22 +86,17 @@ export default {
   ],
   methods: {
     displayAllComments(id) {
-      axios
-          .get("http://localhost:3000/posts/comments/" + id, {
-            headers: {
-              Authorization: `token ${this.$store.state.userToken}`,
-            },
-          })
-          .then((response) => {
-            if (this.comments.length != response.data.length) {
-              this.comments = response.data;
-            } else {
-              return;
-            }
-          })
-          .catch((error) => {
-            console.log(error);
-          });
+      axios.get("http://localhost:3000/posts/comments/" + id, {
+        headers: {
+          Authorization: `token ${this.$store.state.userToken}`,
+        },
+      }).then((response) => {
+        if (this.comments.length != response.data.length) {
+          this.comments = response.data;
+        }
+      }).catch((error) => {
+        console.log(error);
+      });
     },
     postAComment() {
       let comment = {
@@ -107,81 +104,63 @@ export default {
         postId: this.id,
         authorId: this.$store.state.userId,
       };
-      console.log(comment);
-      axios
-          .post("http://localhost:3000/posts/comments/", comment, {
-            headers: {
-              Authorization: `token ${this.$store.state.userToken}`,
-            },
-          })
-          .then((response) => {
-            return response.data;
-          })
-          .catch((error) => {
-            console.log(this.commentToPost);
-            console.log(error);
-          });
+      axios.post("http://localhost:3000/posts/comments/", comment, {
+        headers: {
+          Authorization: `token ${this.$store.state.userToken}`,
+        },
+      }).then((response) => {
+        return response.data;
+      }).catch((error) => {
+        console.log(error);
+      });
     },
     likeAPost(id) {
       let data = {
         userId: this.$store.state.userId,
         postId: id,
       }
-      axios
-          .post("http://localhost:3000/posts/isLiked/", data, {
-            headers: {
-              Authorization: `token ${this.$store.state.userToken}`,
-            },
-          })
-          .then((response) => {
-            this.likes = response.data;
-            return this.likes;
-          })
-          .catch((error) => {
-            console.log(error);
-          })
-    },
-    flagAPost(id) {
-      console.log(id);
-      axios
-          .put('http://localhost:3000/posts/' + id + '/isFlagged/', {
-            headers: {
-              Authorization: `token ${this.$store.state.userToken}`,
-            },
-          })
-          .then((response) => {
-            return response.data;
-          })
-          .catch((error) => {
-            console.log(error);
-          })
-    },
-    deleteAPost(id) {
-      axios
-          .delete("http://localhost:3000/posts/" + id, {
-            headers: {
-              Authorization: `token ${this.$store.state.userToken}`,
-            },
-          })
-          .then((response) => {
-            return response.data;
-          })
-          .catch((error) => {
-            console.log(error);
-          })
-    },
-    getLikesPerPosts(id) {
-      axios
-      .get('http://localhost:3000/posts/' + id + '/likes/', {
+      axios.post("http://localhost:3000/posts/isLiked/", data, {
         headers: {
           Authorization: `token ${this.$store.state.userToken}`,
         },
+      }).then((response) => {
+        this.likes = response.data;
+        return this.likes;
+      }).catch((error) => {
+        console.log(error);
       })
-      .then((response) => {
+    },
+    flagAPost(id) {
+      axios.put('http://localhost:3000/posts/' + id + '/isFlagged/', {
+        headers: {
+          Authorization: `token ${this.$store.state.userToken}`,
+        },
+      }).then((response) => {
+        return response.data;
+      }).catch((error) => {
+        console.log(error);
+      })
+    },
+    deleteAPost(id) {
+      axios.delete("http://localhost:3000/posts/" + id, {
+        headers: {
+          Authorization: `token ${this.$store.state.userToken}`,
+        },
+      }).then((response) => {
+        return response.data;
+      }).catch((error) => {
+        console.log(error);
+      })
+    },
+    getLikesPerPosts(id) {
+      axios.get('http://localhost:3000/posts/' + id + '/likes/', {
+        headers: {
+          Authorization: `token ${this.$store.state.userToken}`,
+        },
+      }).then((response) => {
         this.likes = response.data.length;
         return this.likes;
-      })
-      .catch((error) => {
+      }).catch((error) => {
         console.log(error);
       })
     },
@@ -299,8 +278,7 @@ export default {
 
 .send-comment {
   width: 25%;
-  margin: auto;
-  margin-top: 0.5rem;
+  margin: 0.5rem auto auto;
 }
 
 .flag-a-post {

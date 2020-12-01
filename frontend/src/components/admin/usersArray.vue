@@ -42,68 +42,53 @@ export default {
   },
   methods: {
     displayAllUsers() {
-      axios
-        .get("http://localhost:3000/dashboard/getAllUsers/", {
-          headers: {
-            Authorization: `token ${this.$store.state.userToken}`,
-          },
-        })
-        .then((response) => {
-          if (this.users.length != response.data.length) {
-            this.users = response.data;
-            return this.users;
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    },
-    changeRoleToAdmin(id) {
-      console.log(id);
-      axios
-        .put("http://localhost:3000/dashboard/changeRoleToAdmin/" + id, {
-          headers: {
-            Authorization: `token ${this.$store.state.userToken}`,
-          },
-        })
-        .then((response) => {
-          this.users = response.data;
-          return this.users;
-        })
-        .catch((error) => {
-          console.log(error);
-        })
-    },
-    changeRoleToUser(id) {
-      console.log(id);
-      axios
-        .put("http://localhost:3000/dashboard/changeRoleToUser/" + id, {
-          headers: {
-            Authorization: `token ${this.$store.state.userToken}`,
-          },
-        })
-        .then((response) => {
-          this.users = response.data;
-          return this.users;
-        })
-        .catch((error) => {
-          console.log(error);
-        })
-    },
-    deleteAUser(id, profile_picture) {
-
-      axios
-      .delete('http://localhost:3000/dashboard/users/' + id + "/" + profile_picture.split('/profile/')[1], {
+      axios.get("http://localhost:3000/dashboard/getAllUsers/", {
         headers: {
           Authorization: `token ${this.$store.state.userToken}`,
         },
+      }).then((response) => {
+        if (this.users.length != response.data.length) {
+          this.users = response.data;
+          return this.users;
+        }
+      }).catch((error) => {
+        console.log(error);
+      });
+    },
+    changeRoleToAdmin(id) {
+      axios.put("http://localhost:3000/dashboard/changeRoleToAdmin/" + id, {
+        headers: {
+          Authorization: `token ${this.$store.state.userToken}`,
+        },
+      }).then((response) => {
+        this.users = response.data;
+        return this.users;
+      }).catch((error) => {
+        console.log(error);
       })
-      .then((response) => {
+    },
+    changeRoleToUser(id) {
+      axios.put("http://localhost:3000/dashboard/changeRoleToUser/" + id, {
+        headers: {
+          Authorization: `token ${this.$store.state.userToken}`,
+        },
+      }).then((response) => {
+        this.users = response.data;
+        return this.users;
+      }).catch((error) => {
+        console.log(error);
+      })
+    },
+    deleteAUser(id, profile_picture) {
+      axios.delete('http://localhost:3000/dashboard/users/' + id + "/" + profile_picture.split('/profile/')[1], {
+        headers: {
+          Authorization: `token ${this.$store.state.userToken}`,
+        },
+      }).then((response) => {
         this.users = response.data;
         console.log(this.users.profile_picture);
         return this.users;
-      })
-      .catch((error) => {
+      }).catch((error) => {
         console.log(error);
       })
     },

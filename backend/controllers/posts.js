@@ -37,7 +37,7 @@ exports.getLikesPerPosts = (req, res) => {
 
 //? Get feed posts
 exports.getAllPosts = (req, res) => {
-    sql.query('SELECT posts.id, message, users.profile_picture, posts.image, users.firstname, users.name, posts.isFlagged, DATE_FORMAT(date, "%d/%m/%Y à %T") date FROM posts INNER JOIN users ON posts.authorId = users.id ORDER BY posts.date DESC', (err, result) => {
+    sql.query('SELECT posts.id, message, users.profile_picture, posts.image, users.firstname, users.name, posts.isFlagged, DATE_FORMAT(date, "le %d/%m/%Y à %T") date FROM posts INNER JOIN users ON posts.authorId = users.id ORDER BY posts.date DESC', (err, result) => {
         if (err) throw err;
         return res.status(200).json(result);
     })
@@ -53,7 +53,7 @@ exports.getUserPosts = (req, res) => {
 
 // ? Delete a post and all comments linked
 exports.deleteAPost = (req, res) => {
-    sql.query('DELETE comments, posts FROM comments INNER JOIN posts ON comments.postId = posts.id WHERE postId="' + req.params.id + '"', (err, result) => {
+    sql.query('DELETE comments, posts FROM posts INNER JOIN comments ON post.id = comments.postsId WHERE postId="' + req.params.id + '"', (err, result) => {
         if (err) throw err;
         return res.status(200).json(result);
     })
@@ -61,8 +61,6 @@ exports.deleteAPost = (req, res) => {
 
 // ? Like a post
 exports.likeAPost = (req, res) => {
-
-    console.log(req.body);
 
     const reaction = new Reaction({
         userId: req.body.userId,

@@ -48,7 +48,7 @@ exports.deleteAUser = (req, res) => {
 // * On posts array
 
 exports.getAllPostsByFlag = (req, res) => {
-    sql.query('SELECT posts.id, message, users.profile_picture, posts.image, users.firstname, users.name, posts.isFlagged, DATE_FORMAT(date, "%d/%m/%Y à %T") date FROM posts INNER JOIN users ON posts.authorId = users.id WHERE posts.isFlagged >= "1" ORDER BY posts.isFlagged DESC', (err, result) => {
+    sql.query("SELECT posts.id, message, users.profile_picture, posts.image, users.firstname, users.name, posts.isFlagged, DATE_FORMAT(date, \"%d/%m/%Y à %T\") date FROM posts INNER JOIN users ON posts.authorId = users.id WHERE posts.isFlagged >= \"1\" ORDER BY posts.isFlagged DESC", (err, result) => {
         if (err) throw err;
         return res.status(200).json(result);
     })
@@ -63,7 +63,7 @@ exports.getAllPostsByDate = (req, res) => {
 
 exports.getAllPostsByAuthor = (req, res) => {
     console.log(req.params.id);
-    sql.query('SELECT posts.id, message, users.profile_picture, posts.image, users.firstname, users.name, posts.isFlagged, DATE_FORMAT(date, "%d/%m/%Y à %T") date FROM posts INNER JOIN users ON posts.authorId = users.id WHERE posts.authorId="' + req.params.id + '"ORDER BY posts.date DESC', (err, result) => {
+    sql.query('SELECT posts.id, message, users.profile_picture, posts.image, users.firstname, users.name, posts.isFlagged, DATE_FORMAT(date, "%d/%m/%Y à %T") date FROM posts INNER JOIN users ON posts.authorId = users.id WHERE posts.authorId="' + req.params.id + '"', (err, result) => {
         if (err) throw err;
         return res.status(200).json(result);
     })
@@ -96,7 +96,7 @@ exports.getAllComments = (req, res) => {
 
 exports.getAllCommentsByAuthor = (req, res) => {
     console.log(req.params.id);
-    sql.query('SELECT comments.id, message, users.firstname, users.name, comments.postId, DATE_FORMAT(date, "%d/%m/%Y à %T") date FROM comments INNER JOIN users ON comments.authorId = users.id WHERE comments.authorId="' + req.params.id + '"ORDER BY comments.date DESC', (err, result) => {
+    sql.query('SELECT comments.id, message, users.firstname, users.name, comments.isFlagged, comments.postId, DATE_FORMAT(date, "%d/%m/%Y à %T") date FROM comments INNER JOIN users ON comments.authorId = users.id WHERE comments.authorId="' + req.params.id + '"ORDER BY comments.date DESC', (err, result) => {
         if (err) throw err;
         return res.status(200).json(result);
     })
@@ -104,7 +104,7 @@ exports.getAllCommentsByAuthor = (req, res) => {
 
 exports.getAllCommentsByPost = (req, res) => {
     console.log(req.params.id);
-    sql.query('SELECT comments.id, message, users.firstname, users.name, comments.postId, DATE_FORMAT(date, "%d/%m/%Y à %T") date FROM comments INNER JOIN users ON comments.authorId = users.id WHERE comments.postId="' + req.params.id + '"ORDER BY comments.date DESC', (err, result) => {
+    sql.query('SELECT comments.id, message, users.firstname, users.name, comments.postId, comments.isFlagged, DATE_FORMAT(date, "%d/%m/%Y à %T") date FROM comments INNER JOIN users ON comments.authorId = users.id WHERE comments.postId="' + req.params.id + '"ORDER BY comments.date DESC', (err, result) => {
         if (err) throw err;
         return res.status(200).json(result);
     })

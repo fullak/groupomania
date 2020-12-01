@@ -42,23 +42,20 @@ export default {
   },
   methods: {
     displayAllPosts() {
-      axios
-        .get("http://localhost:3000/posts/allPosts", {
-          headers: {
-            Authorization: `token ${this.$store.state.userToken}`,
-          },
-        })
-        .then((response) => {
-          if (this.posts.length != response.data.length) {
-            this.posts = response.data;
-            console.log(response);
-          } else {
-            return;
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      axios.get("http://localhost:3000/posts/allPosts", {
+        headers: {
+          Authorization: `token ${this.$store.state.userToken}`,
+        },
+      }).then((response) => {
+        if (this.posts.length != response.data.length) {
+          this.posts = response.data;
+          console.log(response);
+        } else {
+          return;
+        }
+      }).catch((error) => {
+        console.log(error);
+      });
     },
   }
 }

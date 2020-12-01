@@ -1,8 +1,8 @@
 <template>
   <div class="profile">
     <div class="title box">
-        <h2 class="lastPostsTitle">Profile</h2>
-        </div>
+      <h2 class="lastPostsTitle">Profile</h2>
+    </div>
     <div class="main-profile">
 
       <div class="information box">
@@ -85,21 +85,18 @@ export default {
       formData.append("userId", this.$store.state.userId);
       formData.append("currentImage", this.$store.state.userPicture);
 
-      axios
-          .put("http://localhost:3000/profile/image", formData, {
-            headers: {
-              "Content-Type": "multipart/form-data",
-              Authorization: `token ${this.$store.state.userToken}`,
-            },
-          })
-          .then((response) => {
-            this.feedbackMessageAvatar = response.data.message;
-            this.$store.dispatch("getOneUser");
-            location.reload();
-          })
-          .catch((error) => {
-            console.log(error);
-          });
+      axios.put("http://localhost:3000/profile/image", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `token ${this.$store.state.userToken}`,
+        },
+      }).then((response) => {
+        this.feedbackMessageAvatar = response.data.message;
+        this.$store.dispatch("getOneUser");
+        location.reload();
+      }).catch((error) => {
+        console.log(error);
+      });
     },
     getAge(birthday) {
       let today = new Date();
@@ -112,46 +109,30 @@ export default {
       return age;
     },
     getUserPosts() {
-      axios
-          .get("http://localhost:3000/posts/" + this.$store.state.userId, {
-            headers: {
-              Authorization: `token ${this.$store.state.userToken}`,
-            },
-          })
-          .then((response) => {
-            if (this.posts.length != response.data.length) {
-              this.posts = response.data;
-              console.log(this.posts);
-              console.log(response.data);
-              console.log(response);
-            } else {
-              return;
-            }
-          })
-          .catch((error) => {
-            console.log(error);
-          });
+      axios.get("http://localhost:3000/posts/" + this.$store.state.userId, {
+        headers: {
+          Authorization: `token ${this.$store.state.userToken}`,
+        },
+      }).then((response) => {
+        if (this.posts.length != response.data.length) {
+          this.posts = response.data;
+        }
+      }).catch((error) => {
+        console.log(error);
+      });
     },
     deleteAPost(post) {
-      axios
-          .delete("http://localhost:3000/posts/", post, {
-            headers: {
-              Authorization: `token ${this.$store.state.userToken}`,
-            },
-          })
-          .then((response) => {
-            if (this.myPosts.length != response.data.length) {
-              this.myPosts = response.data;
-              console.log(response.data);
-              console.log("AAAAA");
-              console.log(this.myPosts);
-            } else {
-              return;
-            }
-          })
-          .catch((error) => {
-            console.log(error);
-          });
+      axios.delete("http://localhost:3000/posts/", post, {
+        headers: {
+          Authorization: `token ${this.$store.state.userToken}`,
+        },
+      }).then((response) => {
+        if (this.myPosts.length != response.data.length) {
+          this.myPosts = response.data;
+        }
+      }).catch((error) => {
+        console.log(error);
+      });
     },
   },
 };

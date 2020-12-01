@@ -10,7 +10,9 @@
     <div class="field" :class="{ invalid: $v.email.$error }">
       <label class="label">Email</label>
       <div class="control">
-        <input class="input" type="email" placeholder="ex: john@doe.com" required v-model="email"/>
+        <label>
+          <input class="input" type="email" placeholder="ex: john@doe.com" required v-model="email"/>
+        </label>
         <small v-if="!$v.email.email" id="emailHelp" class="form-text has-text-danger">L'adresse email fournie est invalide.</small>
       </div>
     </div>
@@ -19,7 +21,9 @@
     <div class="field" :class="{ invalid: $v.password.$error }">
       <label class="label">Mot de passe</label>
       <div class="control">
-        <input class="input" type="password" placeholder="ex: P@sSw0rd8" required v-model="password"/>
+        <label>
+          <input class="input" type="password" placeholder="ex: P@sSw0rd8" required v-model="password"/>
+        </label>
         <small v-if="!$v.password.minLength" id="passwordHelp" class="form-text has-text-danger">Le mot de passe doit contenir au moins 6 caractères</small>
         <small v-if="!$v.password.syntaxe && password != ''" id="secondPasswordHelp" class="form-text has-text-danger">Le mot de passe contient des caractères non autorisés</small>
       </div>
@@ -29,7 +33,9 @@
     <div class="field" :class="{ invalid: $v.confirmationPassword.$error }">
       <label class="label">Confirmer votre mot de passe</label>
       <div class="control">
-        <input class="input" type="password" placeholder="ex: P@sSw0rd8" required v-model="confirmationPassword"/>
+        <label>
+          <input class="input" type="password" placeholder="ex: P@sSw0rd8" required v-model="confirmationPassword"/>
+        </label>
         <small v-if="!$v.confirmationPassword.sameAsPassword && confirmationPassword != ''" id="verifyPasswordHelp" class="form-text has-text-danger">Ce mot de passe n'est pas identique au précédent {{ $v.confirmationPassword.syntaxe }}</small>
       </div>
     </div>
@@ -38,7 +44,9 @@
     <div class="field" :class="{ invalid: $v.name.$error }">
       <label class="label">Nom</label>
       <div class="control">
-        <input class="input" type="text" placeholder="ex: Doe" required v-model="name"/>
+        <label>
+          <input class="input" type="text" placeholder="ex: Doe" required v-model="name"/>
+        </label>
         <small v-if="!$v.name.minLength" id="namelHelp" class="form-text has-text-danger">Le nom doit contenir au moins 2 caractères</small>
         <small v-if="!$v.name.syntaxe && name != ''" id="verifyNameHelp" class="form-text has-text-danger">Le nom contient des caractères non autorisés</small>
       </div>
@@ -48,7 +56,9 @@
     <div class="field" :class="{ invalid: $v.firstname.$error }">
       <label class="label">Prénom</label>
       <div class="control">
-        <input class="input" type="text" placeholder="ex: John" required v-model="firstname" />
+        <label>
+          <input class="input" type="text" placeholder="ex: John" required v-model="firstname" />
+        </label>
         <small v-if="!$v.firstname.minLength" id="firstnameHelp" class="form-text has-text-danger">Le nom doit contenir au moins 2 caractères</small>
         <small v-if="!$v.firstname.syntaxe && firstname != ''" id="nomHelp" class="form-text has-text-danger">Le nom contient des caractères non autorisés</small>
       </div>
@@ -57,7 +67,9 @@
       <div class="field">
         <label class="label birthday">Date de naissance</label>
         <div class="control">
-          <input class="input" type="date" v-model="birthday" required/>
+          <label>
+            <input class="input" type="date" v-model="birthday" required/>
+          </label>
         </div>
       </div>
 

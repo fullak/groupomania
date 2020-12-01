@@ -2,13 +2,15 @@
   <div class="container">
 
     <div class="title box">
-        <h2 class="board-title">Fil d'actualité</h2>
+      <h2 class="board-title">Fil d'actualité</h2>
     </div>
 
     <span class="container-title">Poster un message :</span>
     
     <section class="message-container">
-      <textarea type="text" class="textarea message-input is-primary" placeholder="e.g. Hello world" v-model="message"></textarea>
+      <label>
+        <textarea type="text" class="textarea message-input is-primary" placeholder="e.g. Hello world" v-model="message"></textarea>
+      </label>
       <input type="file" id="image" ref="fileInput" @input="pickFile" accept="image/*" class="form-input" v-if="seen"/>
 
       <div v-if="previewImage" class="image-to-display imagePreviewWrapper" :style="{ 'background-image': `url(${previewImage})` }" @click="selectImage"></div>
@@ -61,21 +63,18 @@ export default {
       formData.append("authorId", this.$store.state.userId);
       formData.append("message", this.message);
 
-      axios
-        .post("http://localhost:3000/posts/", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: `token ${this.$store.state.userToken}`,
-          },
-        })
-        .then((response) => {
-          this.feedbackMessagePicture = response.data.message;
-          this.$store.dispatch("getOneUser");
-          location.reload();
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      axios.post("http://localhost:3000/posts/", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `token ${this.$store.state.userToken}`,
+        },
+      }).then((response) => {
+        this.feedbackMessagePicture = response.data.message;
+        this.$store.dispatch("getOneUser");
+        location.reload();
+      }).catch((error) => {
+        console.log(error);
+      });
     },
     selectImage() {
       this.$refs.fileInput.click();
@@ -121,7 +120,7 @@ body {
 
 .container {
   display: flex;
-  flex-direction: columns;
+  flex-direction: column;
   width: 100%;
 }
 

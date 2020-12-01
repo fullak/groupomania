@@ -23,11 +23,7 @@
       <span class="signupRedirection">Vous allez être redirigé</span>
     </div>
 
-    <button
-      class="modal-close is-large"
-      aria-label="close"
-      @click="hideModal"
-    ></button>
+    <button class="modal-close is-large" aria-label="close" @click="hideModal"></button>
   </div>
 </template>
 

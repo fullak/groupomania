@@ -19,4 +19,27 @@ Reaction.create = (newReaction, result) => {
     })
 };
 
+Reaction.get = (newReaction, result) => {
+    sql.query('SELECT reaction WHERE postId=', newReaction.postId, ', userId=', newReaction.userId, (err, res) => {
+        if(err) {
+            console.log('error: ', err);
+            result(err, null);
+            return;
+        }
+        result(null, {userId: res.userId, ...newReaction});
+    })
+};
+
+Reaction.delete = (newReaction, result) => {
+    sql.query('DELETE reaction WHERE postId=', newReaction.postId, ', userId=', newReaction.userId, (err, res) => {
+        if(err) {
+            console.log('error: ', err);
+            result(err, null);
+            return;
+        }
+        console.log('Reaction delete to the database');
+        result(null, {userId: res.userId, ...newReaction});
+    })
+};
+
 module.exports = (Reaction);

@@ -1,8 +1,8 @@
 <template>
-    <div class="home-container">
-      <img alt="Vue logo" src="../assets/images/logo.png" class="logo">
-      <LoginModule class="login-module"/>
-    </div>
+  <div class="home-container">
+    <img alt="Vue logo" src="../assets/images/logo.png" class="logo">
+    <LoginModule class="login-module"/>
+  </div>
 </template>
 
 <script>
@@ -46,8 +46,7 @@ export default {
   }
 
   .login-module {
-    margin: auto;
-    margin-top: -2rem;
+    margin: -2rem auto auto;
   }
 }
 </style>

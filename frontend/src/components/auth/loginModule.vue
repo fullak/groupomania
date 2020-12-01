@@ -7,7 +7,9 @@
     <!-- Email input -->
     <div class="field">
       <p class="control has-icons-left has-icons-right">
-        <input class="input" type="email" placeholder="Email" v-model="email" />
+        <label>
+          <input class="input" type="email" placeholder="Email" v-model="email" />
+        </label>
         <span class="icon is-small is-left">
           <i class="fas fa-envelope"></i>
         </span>
@@ -18,7 +20,9 @@
     <!-- Password input -->
     <div class="field">
       <p class="control has-icons-left">
-        <input class="input" type="password" placeholder="Password" v-model="password" />
+        <label>
+          <input class="input" type="password" placeholder="Password" v-model="password" />
+        </label>
         <span class="icon is-small is-left"><i class="fas fa-lock"></i></span>
       </p>
     </div>
@@ -67,27 +71,26 @@ export default {
         email: this.email,
         password: this.password,
       };
-      axios
-        .post("http://localhost:3000/user/login/", user)
-        .then((response) => {
-          this.errorMessage = response.data.message;
-          localStorage.clear();
-          localStorage.userId = response.data.userId;
-          localStorage.token = response.data.token;
-          this.$store.state.userToken = response.data.token;
-          this.$store.state.userId = response.data.userId;
-          this.isAlert = false;
-          this.$store.state.isLogged = true;
-          this.$store.dispatch("getOneUser");
-          setTimeout(() => {
-            this.$router.push({ path: "/feed" });
-          }, 3500);
-          document.querySelector("#loginModal").classList.add("is-active");
-        })
-        .catch((error) => {
-          this.errorMessage = error.response.data.message;
-          this.isAlert = true;
-        });
+      axios.post("http://localhost:3000/user/login/", user)
+          .then((response) => {
+            this.errorMessage = response.data.message;
+            localStorage.clear();
+            localStorage.userId = response.data.userId;
+            localStorage.token = response.data.token;
+            this.$store.state.userToken = response.data.token;
+            this.$store.state.userId = response.data.userId;
+            this.isAlert = false;
+            this.$store.state.isLogged = true;
+            this.$store.dispatch("getOneUser");
+            setTimeout(() => {
+              this.$router.push({path: "/feed"});
+            }, 3500);
+            document.querySelector("#loginModal").classList.add("is-active");
+          })
+          .catch((error) => {
+            this.errorMessage = error.response.data.message;
+            this.isAlert = true;
+          });
     },
   },
 };
