@@ -15,7 +15,7 @@
           <div class="icons-container">
             <a href="#" @click="likeAPost(id)"><span>{{ likes }} </span><i class="fas fa-heart heart-icon"></i></a>
             <a @click="seen = !seen"><i class="fas fa-comment-dots comment-icon"></i><span> {{ this.comments.length }} comments</span></a>
-            <a href="#" class="trash-icon" v-if="(this.$store.state.userId == authorId)" @click="deleteAPost(id)"><i class="fas fa-trash-alt"></i></a>
+            <a href="#" class="trash-icon" v-if="(this.$store.state.userId == authorId)" @click="deleteAPost(id, image)"><i class="fas fa-trash-alt"></i></a>
           </div>
         </div>
 
@@ -109,7 +109,8 @@ export default {
           Authorization: `token ${this.$store.state.userToken}`,
         },
       }).then((response) => {
-        return response.data;
+        this.comments = response.data;
+        return this.comments;
       }).catch((error) => {
         console.log(error);
       });
@@ -141,13 +142,16 @@ export default {
         console.log(error);
       })
     },
-    deleteAPost(id) {
-      axios.delete("http://localhost:3000/posts/" + id, {
+    deleteAPost(id, image) {
+      console.log(id, image);
+      axios.delete('http://localhost:3000/dashboard/posts/' + id + "/" + image.split('/posts/')[1], {
         headers: {
           Authorization: `token ${this.$store.state.userToken}`,
         },
       }).then((response) => {
-        return response.data;
+        console.log(response.data);
+        this.posts = response.data;
+        return this.posts;
       }).catch((error) => {
         console.log(error);
       })

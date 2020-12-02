@@ -121,19 +121,6 @@ export default {
         console.log(error);
       });
     },
-    deleteAPost(post) {
-      axios.delete("http://localhost:3000/posts/", post, {
-        headers: {
-          Authorization: `token ${this.$store.state.userToken}`,
-        },
-      }).then((response) => {
-        if (this.myPosts.length != response.data.length) {
-          this.myPosts = response.data;
-        }
-      }).catch((error) => {
-        console.log(error);
-      });
-    },
   },
 };
 </script>

@@ -51,14 +51,6 @@ exports.getUserPosts = (req, res) => {
     })
 };
 
-// ? Delete a post and all comments linked
-exports.deleteAPost = (req, res) => {
-    sql.query('DELETE comments, posts FROM posts INNER JOIN comments ON post.id = comments.postsId WHERE postId="' + req.params.id + '"', (err, result) => {
-        if (err) throw err;
-        return res.status(200).json(result);
-    })
-};
-
 // ? Like a post
 exports.likeAPost = (req, res) => {
 
